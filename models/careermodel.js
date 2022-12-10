@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const careerSchema = mongoose.Schema({
     name : String,
-    des : String,
+    des_eng : String,
+    des_thai : String,
     skills : [
         {
         level_id : String,

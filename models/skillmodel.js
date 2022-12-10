@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const skillsSchema = mongoose.Schema({
     name : String,
-    des : String,
+    des_eng : String,
+    des_thai : String,
     levels : [
         {
         level_id : String,

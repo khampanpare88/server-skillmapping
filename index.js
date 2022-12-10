@@ -10,6 +10,8 @@ import newSkill from './routes/skills.js';
 import getCareer from './routes/career.js';
 import newCareer from './routes/career.js';
 import getStudent from './routes/student.js';
+import addCourses from './routes/student.js';
+
 
 const app = express();
 
@@ -20,7 +22,7 @@ app.use(cors());
 app.use('/courses' ,coursesRouters ,updateCoursesSkill);
 app.use('/skills',skillRouters ,newSkill);
 app.use('/career' , getCareer ,newCareer);
-app.use('/student' , getStudent);
+app.use('/student' , getStudent,addCourses);
 
 
 //const CONNECTION_URL = 'mongodb+srv://project:491@skillmapping.s8p064c.mongodb.net/?retryWrites=true&w=majority'
