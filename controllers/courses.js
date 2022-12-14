@@ -50,8 +50,8 @@ export const getCourses = async (req,res) =>{
 
 
 export const UpdateorNew = async (req,res) =>{
-    const { course_id, sel_topic,skills,isSelTopic } = req.body;
-
+    const { course_id, topic,skills,isSelTopic } = req.body;
+    const sel_topic = topic;
     if( isSelTopic == true /*เป็นseltopic*/){
         // const { id,name ,des , sel_topic,levels } = req.body;
         if(course_id == '6335309e1145d8b493deb6a3' ){
