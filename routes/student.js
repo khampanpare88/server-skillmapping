@@ -5,7 +5,8 @@ import { getStudent,addCourses } from '../controllers/student.js';
 
 const router = express.Router();
 
-router.get( '/' , getStudent);
-router.post( '/', addCourses)
+// router.get( '/' , getStudent);
+router.get( '/:token' , getStudent);
+router.post( '/',addCourses)
 
 export default router;

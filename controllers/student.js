@@ -1,12 +1,27 @@
 import StudentModel from '../models/studentmodent.js';
 
+// //show datastudent
+// export const getStudent = async (req,res) =>{
+//     // const token = 12345;
+//     const {token} = req.body;
+//     try{
+//         // const student = await StudentModel.find({token : token});
+//         const student = await StudentModel.find(token);
+//         res.status(200).json(student);
+//     } catch(error){
+//         res.status(404).json( {message: error.message });
+//     }
+// };
+
+
 //show datastudent
 export const getStudent = async (req,res) =>{
     // const token = 12345;
-    const {token} = req.body;
+    const  token_id  = req.params.token;
+    // console.log(token_id);
     try{
         // const student = await StudentModel.find({token : token});
-        const student = await StudentModel.find(token);
+        const student = await StudentModel.find({token : token_id });
         res.status(200).json(student);
     } catch(error){
         res.status(404).json( {message: error.message });

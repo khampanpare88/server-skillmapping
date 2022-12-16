@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const careerSchema = mongoose.Schema({
-    name : String,
+    name_career : String,
     des_eng : String,
     des_thai : String,
     skills : [
