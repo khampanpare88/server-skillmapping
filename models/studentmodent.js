@@ -14,6 +14,7 @@ const studentSchema = mongoose.Schema({
         {
         skill_name : String,
         level_id : String,
+        skill_like : String,
         }
     ]
 },{versionKey: false});
