@@ -67,7 +67,11 @@ export const addCourses = async (req,res) =>{
 //         try{
 //             // const student = await StudentModel.find({token : token});
 //             const student = await StudentModel.find({ student_id });
-//             const course = await CoursesModel.find({ id });
+//             if(student[0].courses[0] == 'coding'){
+//                 const course = await CoursesModel.find({ name : "coding" });
+//             };
+//             // const course = await CoursesModel.find({ id });
+            
 //             console.log(course[0]);
 //             console.log(course[0].skills[0]);
 //             // console.log(courses[0].skills[0]);
@@ -81,18 +85,20 @@ export const addCourses = async (req,res) =>{
 //     const { student_id } = req.body;
     
 //     if (!mongoose.Types.ObjectId.isValid(student_id)) return res.status(404).send(`No post with id: ${student_id}`);
-//     if(skill_name == "coding"){
-//         const addLikeskills = { level_id };
 
-//         await StudentModel.findByIdAndUpdate(student_id, addLikeskills, { new: true });
+//         const addSkillByCourses = { skills };
 
-//         res.json(addLikeskills);
-//     };
+//         const student = await StudentModel.find(student_id);
+//         if(student[0].courses[0] == "coding"){
+//             const course1 = await CoursesModel.find({name : "coding"});
+            
+//         }
 
+//         res.json(addSkillByCourses);
 // };
 
 
-//add like skill
+//add like and self skill
 export const addLikeskills = async (req,res) =>{
     const { student_id, skills } = req.body;
     
@@ -109,33 +115,60 @@ export const addLikeskills = async (req,res) =>{
 
 
 
-// edit courses
-// export const Updatecourses = async (req,res) =>{
-//     const { student_id, course_name } = req.body;
-
-//         if (!mongoose.Types.ObjectId.isValid(student_id)) return res.status(404).send(`No post with id: ${student_id}`);
-
-//         const Updatecourses = { course_name };
-
-//         await StudentModel.findOneAndUpdate(student_id, Updatecourses, { new: true });
-
-//         res.json(Updatecourses);
-
-// };
+// edit add some courses
+export const Updatecourses = async (req,res) =>{
+    const { student_id,course_name,course_id } = req.body;
+    try{
+        const deletecourse = { $push: { courses : {course_name : course_name,course_id : course_id} } };
+        
+        const student = await StudentModel.findOneAndUpdate({student_id :student_id},deletecourse,{ new: true });
+        
+        // console.log(student);
+        res.status(200).json(student);
+    } catch(error){
+        res.status(404).json( {message: error.message });
+    }
+};
 
 
 //delete course
 // export const deleteCourse = async (req,res) =>{
 //     // const { student_id, course_name, course_id } = req.body;
-//     const student_id = '620610777'
+//     const student_id = "620610777";
 //     const course_name = "Object-Oriented Programming";
 //     const course_id = "261200";
 
-//         const deleteCourse = { course_name,course_id };
+//         const student = await StudentModel.findById(student_id);
+//         // await StudentModel.findByIdAndDelete(student_id, deleteCourse, { new: true });
+//         // res.json(deleteCourse);
 
-//         await StudentModel.findByIdAndDelete(student_id, deleteCourse, { new: true });
-
-//         res.json(deleteCourse);
+//         if(!student) {
+//             res.status(404);
+//             throw new Error("student not found.");
+//         }
+    
+//         if(student){
+//             await StudentModel.findByIdAndUpdate(student_id,{ $pull: { course_name,course_id } }, { new: true, useFindAndModify: false });
+//             await student.remove();
+//             res.send("Course removed.");
+//         }
+    
 
 // };
-
+export const deleteCourse = async (req,res) =>{
+    // const token = "12345";
+    // const student_id = "620610777";
+    // const course_name = "Object-Oriented Programming";
+    // const course_id = "261200";
+    const { student_id,course_name,course_id } = req.body;
+    try{
+        const deletecourse = { $pull: { courses : {course_name : course_name,course_id : course_id} } };
+        
+        const student = await StudentModel.findOneAndUpdate({student_id :student_id},deletecourse,{ new: true });
+        
+        // console.log(student);
+        res.status(200).json(student);
+    } catch(error){
+        res.status(404).json( {message: error.message });
+    }
+};
