@@ -26,7 +26,7 @@ app.use(cors());
 app.use('/courses' ,coursesRouters ,updateCoursesSkill);
 app.use('/skills',skillRouters ,newSkill);
 app.use('/career' , getCareer );
-app.use('/student' , getStudent,addCourses,addLikeskills,deleteCourse,Updatecourses);
+app.use('/student' , getStudent,addCourses,addLikeskills,deleteCourse);
 
 
 

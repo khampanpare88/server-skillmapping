@@ -1,5 +1,5 @@
 import StudentModel from '../models/studentmodent.js';
-import CoursesModel from '../models/coursesmodel.js';
+
 
 // //show datastudent
 // export const getStudent = async (req,res) =>{
@@ -45,18 +45,42 @@ export const getStudent = async (req,res) =>{
 // };
 
 //add courses
-export const addCourses = async (req,res) =>{
-    const { student_id,courses} = req.body;
+// export const addCourses = async (req,res) =>{
+//     const { student_id,courses} = req.body;
     
-    if (!mongoose.Types.ObjectId.isValid(student_id)) return res.status(404).send(`No post with id: ${student_id}`);
+//     if (!mongoose.Types.ObjectId.isValid(student_id)) return res.status(404).send(`No post with id: ${student_id}`);
 
-        const addCourses = { courses };
+//         const addCourses = { courses };
 
-        await StudentModel.findByIdAndUpdate(student_id, addCourses, { new: true });
+//         await StudentModel.findByIdAndUpdate(student_id, addCourses, { new: true });
 
-        res.json(addCourses);
+//         res.json(addCourses);
 
-};
+// };
+// export const addCourses = async (req,res) =>{
+//     const { student_id, course_name , course_id} = req.body;
+
+//     if (!mongoose.Types.ObjectId.isValid(student_id)) return res.status(404).send(`No post with id: ${student_id}`);
+
+//         const addCourses = { $push: { courses : {course_name : course_name,course_id : course_id} } };
+
+//         await StudentModel.findByIdAndUpdate(student_id, addCourses, { new: true });
+
+//         res.json(addCourses);
+
+//         const { student_id,course_name,course_id } = req.body;
+//     try{
+//         const deletecourse = { $push: { courses : {course_name : course_name,course_id : course_id} } };
+        
+//         const student = await StudentModel.findOneAndUpdate({student_id :student_id},deletecourse,{ new: true });
+        
+//         // console.log(student);
+//         res.status(200).json(student);
+//     } catch(error){
+//         res.status(404).json( {message: error.message });
+//     }
+
+// };
 
 //add skills by courses
 // export const addSkillByCourses = async (req,res) =>{
@@ -115,8 +139,8 @@ export const addLikeskills = async (req,res) =>{
 
 
 
-// edit add some courses
-export const Updatecourses = async (req,res) =>{
+// add course
+export const addCourses = async (req,res) =>{
     const { student_id,course_name,course_id } = req.body;
     try{
         const deletecourse = { $push: { courses : {course_name : course_name,course_id : course_id} } };
