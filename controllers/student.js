@@ -141,11 +141,11 @@ export const addLikeskills = async (req,res) =>{
 
 // add course
 export const addCourses = async (req,res) =>{
-    const { student_id,course_name,course_id } = req.body;
+    const { token,course_name,course_id } = req.body;
     try{
         const deletecourse = { $push: { courses : {course_name : course_name,course_id : course_id} } };
         
-        const student = await StudentModel.findOneAndUpdate({student_id :student_id},deletecourse,{ new: true });
+        const student = await StudentModel.findOneAndUpdate({token :token},deletecourse,{ new: true });
         
         // console.log(student);
         res.status(200).json(student);
