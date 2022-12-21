@@ -1,7 +1,7 @@
 import careersModel from '../models/careermodel.js';
 
 //show career
-export const getCareer = async (req,res) =>{
+export const getCareers = async (req,res) =>{
 
     try{
         const career = await careersModel.find();
@@ -11,20 +11,15 @@ export const getCareer = async (req,res) =>{
     }
 };
 
-//add new career
-export const newCareer = async (req,res) =>{
-    const { name ,des ,levels } = req.body;
-    const careersModel = new newCareer({ name ,des ,levels})
 
-    console.log(req.body);
-    try {
-        await careersModel.save();
+export const getCareer = async (req,res) =>{
+    const  id  = req.params.id;
 
-        res.status(201).json(careersModel);
-    } catch (error) {
-        res.status(409).json({ message: error.message });
+    try{
+        const career = await careersModel.findById({_id : id});
+        res.status(200).json(career);
+    } catch(error){
+        res.status(404).json( {message: error.message });
     }
-}
-
-//mapping with skill
+};
 
