@@ -5,7 +5,9 @@ export const getCourses = async (req,res) =>{
     try{
         const courses = await CoursesModel.find();
         
-        //console.log(courses);
+        // const n = courses[0].skills.length;
+        // console.log(courses[0].skills,n);
+        
        
         res.status(200).json(courses);
     } catch(error){
@@ -52,6 +54,8 @@ export const getCourses = async (req,res) =>{
 export const UpdateorNew = async (req,res) =>{
     const { course_id, topic,skills,isSelTopic } = req.body;
     const sel_topic = topic;
+    // console.log(skills[0].skill_name,skills[0].level_id);
+    // console.log(skills[1].skill_name,skills[1].level_id);
     if( isSelTopic == true /*เป็นseltopic*/){
         // const { id,name ,des , sel_topic,levels } = req.body;
         if(course_id == '6335309e1145d8b493deb6a3' ){
@@ -76,17 +80,6 @@ export const UpdateorNew = async (req,res) =>{
             }
 
         }
-
-        //const Courses = new CoursesModel({ id,name ,des , sel_topic,skills})
-        
-        //console.log(req.body);            
-        // try {
-        //     await Courses.save();
-    
-        //     res.status(201).json (Courses );
-        // } catch (error) {
-        //     res.status(409).json({ message: error.message });
-        // }
     }
     else{
         // const { course_id,skills } = req.body;
