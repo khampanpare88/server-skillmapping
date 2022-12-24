@@ -54,7 +54,7 @@ export const addLikeskills = async (req,res) =>{
                     const dropLikeskills = { $pull: { skills : find[0].skills[i]}};
                     await StudentModel.findOneAndUpdate(token,dropLikeskills,{ new: true });
 
-                    const addLikeskills = { $push: { skills : {_id : find[0].skills[i]._id, skill_name: find[0].skills[i].skill_name, level_id : find[0].skills[i].level_id,skill_like : find[0].skills[i].skill_like,skill_self :skill[j].skill_self}}};
+                    const addLikeskills = { $push: { skills : {_id : find[0].skills[i]._id, skill_name: find[0].skills[i].skill_name, level_id : find[0].skills[i].level_id,skill_like : skill[j].skill_like,skill_self :find[0].skills[i].skill_self}}};
                     await StudentModel.findOneAndUpdate(token,addLikeskills,{ new: true });
                 };
             };
