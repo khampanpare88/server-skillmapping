@@ -235,11 +235,11 @@ export const deleteCourse = async (req,res) =>{
     // const student_id = "620610777";
     // const course_name = "Object-Oriented Programming";
     // const course_id = "261200";
-    const { student_id,course_name,course_id } = req.body;
+    const { token,course_name,course_id } = req.body;
     try{
         const deletecourse = { $pull: { courses : {course_name : course_name,course_id : course_id} } };
         
-        const student = await StudentModel.findOneAndUpdate({student_id :student_id},deletecourse,{ new: true });
+        const student = await StudentModel.findOneAndUpdate(token,deletecourse,{ new: true });
         
         // console.log(student);
         res.status(200).json(student);
