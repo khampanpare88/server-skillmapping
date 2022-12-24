@@ -132,13 +132,13 @@ export const addSelfkills = async (req,res) =>{
 
 //add course
 export const addCourses = async (req,res) =>{
-    // const { id,token,course_name,course_id } = req.body;
+    const { id,token,course_name,course_id } = req.body;
 
-    const token = "12345";
+    // const token = "12345";
 
-    const id = "63330116d039104ac57efe11";
-    const course_name = "Algorithms";
-    const course_id = "261218";
+    // const id = "63330116d039104ac57efe11";
+    // const course_name = "Algorithms";
+    // const course_id = "261218";
 
     // const id = '6332c142e6580899c89d4fa8';
     // const course_name = "Object-Oriented Programming";
