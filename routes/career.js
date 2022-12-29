@@ -6,6 +6,6 @@ import { getCareers,getCareer } from '../controllers/career.js';
 const router = express.Router();
 
 router.get( '/' , getCareers );
-router.get( '/:id' , getCareer );
+router.get( '/:token/:id' , getCareer );
 
 export default router;
