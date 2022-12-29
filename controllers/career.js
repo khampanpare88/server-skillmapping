@@ -21,8 +21,11 @@ export const getCareer = async (req,res) =>{
     try{
         // const test = await StudentModel.find({student_id : student});
         const student = await StudentModel.find({token:token});
-        var career = await careersModel.find({_id : id});
-        var skill_student =[];
+        const career = await careersModel.find({_id : id});
+        var chart =[3];
+        var skillname = [];
+        var studentlevel = [];
+        var careerlevel = [];
         const n = student[0].skills.length;
         const m = career[0].skills.length;
         console.log(n);
@@ -30,19 +33,21 @@ export const getCareer = async (req,res) =>{
         for(let i = 0; i < n ; i++){
             for(let j = 0; j < m ; j++){
                 if(student[0].skills[i].skill_name === career[0].skills[j].skill_name ){
-                    skill_student[j] = {
-                        name : career[0].skills[j].skill_name,
-                        level : student[0].skills[i].level_id
-                    };
-                    if(skill_student[j].level === undefined){
-                        skill_student[j].level = 0;
+                        skillname[j] = career[0].skills[j].skill_name;
+                        studentlevel[j] = student[0].skills[i].level_id
+                        careerlevel[j] = career[0].skills[j].level_id
+                    if(studentlevel[j] === undefined){
+                        studentlevel[j] = 0;
                     } 
                 }
             };
         };
+        chart[0] = skillname;
+        chart[1] = studentlevel;
+        chart[2] = careerlevel;
         var obj = {
-            career: career,
-            skill_student: skill_student
+            career,
+            chart
         };
 
         console.log(obj);
