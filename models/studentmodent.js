@@ -19,6 +19,20 @@ const studentSchema = mongoose.Schema({
         skill_self :String,
         levelmullike : String
         }
+    ],
+    rankbycourses : [
+        {
+        career : String,
+        distance : String,
+        rank : String
+        }
+    ],
+    rankbyskills : [
+        {
+        career : String,
+        distance : String,
+        rank : String
+        }
     ]
 },{versionKey: false});
 
