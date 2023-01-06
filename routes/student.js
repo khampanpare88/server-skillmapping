@@ -1,7 +1,9 @@
 import express from 'express';
 import { get } from 'mongoose';
 
-import { getStudent,addCourses,addLikeskills,addSelfkills,deleteCourse } from '../controllers/student.js';
+import { getStudent,addCourses,addLikeskills,addSelfkills } from '../controllers/student.js';
+import { deleteCourse } from '../controllers/student1.js';
+
 import { SkilltoCareer } from '../controllers/mapping.js';
 const router = express.Router();
 

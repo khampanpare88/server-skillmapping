@@ -1,18 +1,6 @@
 import StudentModel from '../models/studentmodent.js';
 import CoursesModel from '../models/coursesmodel.js';
 
-// //show datastudent
-// export const getStudent = async (req,res) =>{
-//     // const token = 12345;
-//     const {token} = req.body;
-//     try{
-//         // const student = await StudentModel.find({token : token});
-//         const student = await StudentModel.find(token);
-//         res.status(200).json(student);
-//     } catch(error){
-//         res.status(404).json( {message: error.message });
-//     }
-// };
 //show datastudent
 export const getStudent = async (req,res) =>{
     // const token = 12345;
@@ -33,22 +21,22 @@ export const getStudent = async (req,res) =>{
 export const addLikeskills = async (req,res) =>{
 // sent array 
     const {token,skill} = req.body;
-    console.log();
+    // console.log();
     try{
 
         const find = await StudentModel.find({token :token});
         // console.log(find[0].skills.length);
         const n = find[0].skills.length;
         const m = skill.length;
-        console.log(n);
-        console.log(m);
+        // console.log(n);
+        // console.log(m);
         var courseskill = [];
         for(let x = 0; x < m; x++){
             courseskill.push(false);
         };
         for(let i = 0;i < n;i++){
             for(let j =0; j< m;j++){
-                console.log(skill[j]);
+                // console.log(skill[j]);
                 if(find[0].skills[i].skill_name === skill[j].name){
                     courseskill[j] = true;
                     const dropLikeskills = { $pull: { skills : find[0].skills[i]}};
@@ -84,15 +72,15 @@ export const addSelfkills = async (req,res) =>{
         // console.log(find[0].skills.length);
         const n = find[0].skills.length;
         const m = skill.length;
-        console.log(n);
-        console.log(m);
+        // console.log(n);
+        // console.log(m);
         var courseskill = [];
         for(let x = 0; x < m; x++){
             courseskill.push(false);
         };
         for(let i = 0;i < n;i++){
             for(let j =0; j< m;j++){
-                console.log(skill[j]);
+                // console.log(skill[j]);
                 if(find[0].skills[i].skill_name === skill[j].name){
                     courseskill[j] = true;
                     const dropLikeskills = { $pull: { skills : find[0].skills[i]}};
@@ -126,7 +114,7 @@ export const addCourses = async (req,res) =>{
         
         const check = await StudentModel.find({token:token,courses:{_id : id,course_name : course_name,course_id :course_id}});
 
-        console.log(check);
+        // console.log(check);
         if(check.length !== 0){
             
             const student = await StudentModel.find({token : token});
@@ -157,15 +145,15 @@ export const addCourses = async (req,res) =>{
                 // let i = 0;
                 // let j = 0;
                 for(let i = 0; i < m ;i++){
-                    console.log(" i = " ,i);
-                    console.log(m);
-                    console.log("i = ",student[0].skills[i]);
+                    // console.log(" i = " ,i);
+                    // console.log(m);
+                    // console.log("i = ",student[0].skills[i]);
 
                     for(let j = 0; j < n;j++){
                         if(student[0].skills[i].skill_name === course[0].skills[j].skill_name){
                             courseskill[j] = true;
-                            console.log(student[0].skills[i].level_id);
-                            console.log("if ==="); 
+                            // console.log(student[0].skills[i].level_id);
+                            // console.log("if ==="); 
                             // console.log(course[0].skills[j].skill_name);
                             if(student[0].skills[i].level_id === undefined){
                                 
@@ -196,7 +184,7 @@ export const addCourses = async (req,res) =>{
                 };
                 for(let y = 0; y < course[0].skills.length; y++){
                     if(courseskill[y] == false){
-                        const addskill = { $push:{skills : {_id : course[0].skills[y]._id ,skill_name :course[0].skills[y].skill_name ,level_id : course[0].skills[y].level_id,skill_like : "0", skill_self: "0"}} }
+                        const addskill = { $push:{skills : {_id : course[0].skills[y]._id ,skill_name :course[0].skills[y].skill_name ,level_id : course[0].skills[y].level_id}} }
                         await StudentModel.findOneAndUpdate(token,addskill,{ new: true });
                     }
                 }
@@ -219,21 +207,3 @@ export const addCourses = async (req,res) =>{
     };
 };
 
-// delete course
-export const deleteCourse = async (req,res) =>{
-    // const token = "12345";
-    // const student_id = "620610777";
-    // const course_name = "Object-Oriented Programming";
-    // const course_id = "261200";
-    const { token,course_name,course_id } = req.body;
-    try{
-        const deletecourse = { $pull: { courses : {course_name : course_name,course_id : course_id} } };
-        
-        const student = await StudentModel.findOneAndUpdate(token,deletecourse,{ new: true });
-        
-        // console.log(student);
-        res.status(200).json(student);
-    } catch(error){
-        res.status(404).json( {message: error.message });
-    }
-};

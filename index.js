@@ -14,6 +14,7 @@ import addCourses from './routes/student.js';
 import addLikeskills from './routes/student.js';
 import addSelfkills from './routes/student.js';
 import deleteCourse from './routes/student.js';
+import SkilltoCareer from './routes/student.js';
 
 
 
@@ -27,7 +28,7 @@ app.use(cors());
 app.use('/courses' ,coursesRouters ,updateCoursesSkill);
 app.use('/skills',skillRouters ,newSkill);
 app.use('/career' , getCareers, getCareer );
-app.use('/student' , getStudent,addCourses,addLikeskills,addSelfkills,deleteCourse);
+app.use('/student' , getStudent,addCourses,addLikeskills,addSelfkills,deleteCourse,SkilltoCareer);
 
 
 
