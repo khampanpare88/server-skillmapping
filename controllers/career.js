@@ -56,10 +56,11 @@ export const getCareer = async (req,res) =>{
                         for(let n =0;n < career[0].skills.length;n++){
                             if(course[i].skills[m].skill_name === career[0].skills[n].skill_name){
                                 if(course[i].skills[m].level_id > career[0].skills[n].level_id){
-                                    coursecheck[i] = [
-                                        course[i].name,
-                                        course[i].id
-                                    ];
+                                    coursecheck[i] = {
+                                        id : course[i].id,
+                                        name :  course[i].name,
+                                        sel_topic : course[i].sel_topic,
+                                    };
                                     break;
                                 }
                             }
@@ -70,11 +71,11 @@ export const getCareer = async (req,res) =>{
         };
 
         // console.log(coursecheck[0]);
-        var coursefinal = [];
+        var courses = [];
         let x = 0;
         for(let i=0;i<coursecheck.length;i++){
             if(coursecheck[i] !== undefined){
-                coursefinal[x++] = coursecheck[i]
+                courses[x++] = coursecheck[i]
             };
         };
         // console.log(coursefinal[0]);
@@ -85,7 +86,7 @@ export const getCareer = async (req,res) =>{
         var obj = {
             career,
             chart,
-            coursefinal
+            courses
         };
 
         // console.log(obj);
