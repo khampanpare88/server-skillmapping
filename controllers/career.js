@@ -46,9 +46,10 @@ export const getCareer = async (req,res) =>{
         };
 
         var coursecheck = [];
-        // for(let i=0; i< CoursesModel.find(); i++){
-        //     course.push(false);
-        // };
+        var coursetest = [];
+        for(let i=0; i< CoursesModel.find(); i++){
+            coursetest.push(false);
+        };
         for(let i = 0; i < course.length ;i++){
             for(let j = 0; j < student[0].courses.length ;j++){
                 if(course[i].name !== student[0].courses[j].course_name){
@@ -61,24 +62,21 @@ export const getCareer = async (req,res) =>{
                                         name :  course[i].name,
                                         sel_topic : course[i].sel_topic,
                                     };
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+                                };
+                            };
+                        };
+                    };
+                };
+            };
         };
-
-        // console.log(coursecheck[0]);
         var courses = [];
         let x = 0;
         for(let i=0;i<coursecheck.length;i++){
             if(coursecheck[i] !== undefined){
-                courses[x++] = coursecheck[i]
+                courses[x++] = coursecheck[i];
             };
         };
-        // console.log(coursefinal[0]);
+
         
         chart[0] = skillname;
         chart[1] = studentlevel;

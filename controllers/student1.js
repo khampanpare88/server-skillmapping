@@ -5,8 +5,6 @@ import CoursesModel from '../models/coursesmodel.js';
 export const deleteCourse = async (req,res) =>{
     const { token,course_name,course_id } = req.body;
     try{
-        const studentbefor = await StudentModel.find({token:token});
-        // console.log(studentbefor[0].courses.length);
         const deletecourse = { $pull: { courses : {course_name : course_name,course_id : course_id} } };
         const student = await StudentModel.findOneAndUpdate(token,deletecourse,{ new: true });
         const studentafter = await StudentModel.find({token:token});
@@ -31,10 +29,6 @@ export const deleteCourse = async (req,res) =>{
             // console.log(studentafter[0].courses.length);
             const course = await CoursesModel.find();
             // console.log(n);
-            var skill = [];
-            for(let x = 0; x < studentafter[0].courses.length; x++){
-                skill.push(false);
-            };
             //dropskillของวิชานั้นๆออก
             for(let i=0;i<studentafter[0].courses.length;i++){
                 for(let j =0;j<course.length;j++){
@@ -42,11 +36,12 @@ export const deleteCourse = async (req,res) =>{
                         for(let m=0;m < studentafter[0].skills.length;m++){
                             for(let n=0;n<course[j].skills.length;n++){
                                 if(course[j].skills[n].skill_name === studentafter[0].skills[m].skill_name){
-                                    if(studentafter[0].skills[m].skill_like === undefined || studentafter[0].skills[m].skill_self ===undefined){
+                                    if(studentafter[0].skills[m].skill_like === undefined && studentafter[0].skills[m].skill_self ===undefined){
                                         const deleteskilllevel = { $pull:{skills : studentafter[0].skills[m] } }
                                         await StudentModel.findOneAndUpdate(token,deleteskilllevel,{ new: true });
+
                                     }
-                                    else if(studentafter[0].skills[m].skill_like === undefined || studentafter[0].skills[m].skill_self ===undefined){
+                                    else{
                                         const deleteskilllevel = { $pull:{skills : studentafter[0].skills[m] } }
                                         await StudentModel.findOneAndUpdate(token,deleteskilllevel,{ new: true });
 
@@ -63,11 +58,11 @@ export const deleteCourse = async (req,res) =>{
                 };
             };
 
-
-
-            for(let i=0;i<studentafter[0].courses.length;i++){
+            const studentafter1 = await StudentModel.find({token:token});
+            //add skillจากวิชาที่เหลือ
+            for(let i=0;i<studentafter1[0].courses.length;i++){
                 for(let j =0;j<course.length;j++){
-                    if(studentafter[0].courses[i].course_name === course[j].name){
+                    if(studentafter1[0].courses[i].course_name === course[j].name){
                         // console.log(studentafter[0].courses[i].course_name);
                         for(let m=0;m < studentafter[0].skills.length;m++){
                             for(let n=0;n<course[j].skills.length;n++){
