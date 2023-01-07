@@ -1,5 +1,6 @@
 import StudentModel from '../models/studentmodent.js';
 import CoursesModel from '../models/coursesmodel.js';
+import SkillsModel from '../models/skillmodel.js';
 
 //show datastudent
 export const getStudent = async (req,res) =>{
@@ -7,10 +8,34 @@ export const getStudent = async (req,res) =>{
     const  token_id  = req.params.token;
     try{
         // const student = await StudentModel.find({token : token});
-        const student = await StudentModel.find({token : token_id});
+        // const student = await StudentModel.find({token : token_id});
         // console.log(courses[0].skills[0]);
         // console.log(student[0].skills[0].skill_name);
-        res.status(200).json(student);
+
+        const student =  await StudentModel.find({token : token_id});
+        const check = await SkillsModel.find();
+        var skillslist =[];
+        for(let i=0;i<check.length;i++){
+            for(let j=0;j<student[0].skills.length;j++){
+                if(check[i].name === student[0].skills[j].skill_name){
+                    skillslist[i] = {
+                        skill_name : student[0].skills[j].skill_name,
+                        level_id : student[0].skills[j].level_id,
+                        skill_like : student[0].skills[j].skill_like,
+                        skill_self :student[0].skills[j].skill_self
+                    };
+                };
+            };
+        };
+
+        var obj = {
+            student,
+            skillslist
+        };
+
+            res.status(200).json(obj);
+
+        // res.status(200).json(student);
     } catch(error){
         res.status(404).json( {message: error.message });
     }
@@ -54,9 +79,28 @@ export const addLikeskills = async (req,res) =>{
             }
         }
         const final = await StudentModel.find({token :token});
-        if(final[0].skills.length == 21){
-            res.status(200).json(final);
-        }
+        const check = await SkillsModel.find();
+
+        var skills =[];
+        for(let i=0;i<check.length;i++){
+            for(let j=0;j<final[0].skills.length;j++){
+                if(check[i].name === final[0].skills[j].skill_name){
+                    skills[i] = {
+                        skill_name : final[0].skills[j].skill_name,
+                        level_id : final[0].skills[j].level_id,
+                        skill_like : final[0].skills[j].skill_like,
+                        skill_self :final[0].skills[j].skill_self
+                    };
+                };
+            };
+        };
+
+        var obj = {
+            final,
+            skills
+        };
+
+            res.status(200).json(obj);
     } catch(error){
         res.status(404).json( {message: error.message });
     }
@@ -98,9 +142,30 @@ export const addSelfkills = async (req,res) =>{
             }
         }
         const final = await StudentModel.find({token :token});
-        if(final[0].skills.length == 21){
-            res.status(200).json(final);
-        }
+        const check = await SkillsModel.find();
+
+        var skills =[];
+        for(let i=0;i<check.length;i++){
+            for(let j=0;j<final[0].skills.length;j++){
+                if(check[i].name === final[0].skills[j].skill_name){
+                    skills[i] = {
+                        skill_name : final[0].skills[j].skill_name,
+                        level_id : final[0].skills[j].level_id,
+                        skill_like : final[0].skills[j].skill_like,
+                        skill_self :final[0].skills[j].skill_self
+                    };
+                };
+            };
+        };
+
+        console.log(skills);
+
+        var obj = {
+            final,
+            skills
+        };
+        res.status(200).json(obj);
+
     } catch(error){
         res.status(404).json( {message: error.message });
     }
