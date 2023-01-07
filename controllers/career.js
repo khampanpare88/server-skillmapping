@@ -50,17 +50,37 @@ export const getCareer = async (req,res) =>{
         for(let i=0; i< CoursesModel.find(); i++){
             coursetest.push(false);
         };
-        for(let i = 0; i < course.length ;i++){
-            for(let j = 0; j < student[0].courses.length ;j++){
-                if(course[i].name !== student[0].courses[j].course_name){
-                    for(let m=0;m < course[i].skills.length ;m++){
-                        for(let n =0;n < career[0].skills.length;n++){
-                            if(course[i].skills[m].skill_name === career[0].skills[n].skill_name){
-                                if(course[i].skills[m].level_id > career[0].skills[n].level_id){
-                                    coursecheck[i] = {
+        console.log(student[0].courses.length);
+        if(student[0].courses.length === 0){
+            for(let i = 0; i < course.length ;i++){
+                for(let m=0;m < course[i].skills.length ;m++){
+                    for(let n =0;n < career[0].skills.length;n++){
+                        if(course[i].skills[m].skill_name === career[0].skills[n].skill_name){
+                            if(course[i].skills[m].level_id > career[0].skills[n].level_id){
+                                coursecheck[i] = {
                                         id : course[i].id,
                                         name :  course[i].name,
                                         sel_topic : course[i].sel_topic,
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        }
+        else {
+            for(let i = 0; i < course.length ;i++){
+                for(let j = 0; j < student[0].courses.length ;j++){
+                    if(course[i].name !== student[0].courses[j].course_name){
+                        for(let m=0;m < course[i].skills.length ;m++){
+                            for(let n =0;n < career[0].skills.length;n++){
+                                if(course[i].skills[m].skill_name === career[0].skills[n].skill_name){
+                                    if(course[i].skills[m].level_id > career[0].skills[n].level_id){
+                                        coursecheck[i] = {
+                                            id : course[i].id,
+                                            name :  course[i].name,
+                                            sel_topic : course[i].sel_topic,
+                                        };
                                     };
                                 };
                             };
@@ -68,7 +88,9 @@ export const getCareer = async (req,res) =>{
                     };
                 };
             };
-        };
+        }
+        
+        
         var courses = [];
         let x = 0;
         for(let i=0;i<coursecheck.length;i++){
@@ -77,7 +99,7 @@ export const getCareer = async (req,res) =>{
             };
         };
 
-        
+        console.log(courses)
         chart[0] = skillname;
         chart[1] = studentlevel;
         chart[2] = careerlevel;
