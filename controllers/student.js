@@ -134,23 +134,23 @@ export const addSelfkills = async (req,res) =>{
                     const dropLikeskills = { $pull: { skills : find[0].skills[i]}};
                     await StudentModel.findOneAndUpdate(token,dropLikeskills,{ new: true });
 
-                    // const addLikeskills = { $push: { skills : {_id : find[0].skills[i]._id, skill_name: find[0].skills[i].skill_name, 
-                    //     level_id : find[0].skills[i].level_id,skill_like : find[0].skills[i].skill_like,skill_self :skill[j].skill_self}}};
-                    // await StudentModel.findOneAndUpdate(token,addLikeskills,{ new: true });
                     const addLikeskills = { $push: { skills : {_id : find[0].skills[i]._id, skill_name: find[0].skills[i].skill_name, 
-                        level_id : find[0].skills[i].level_id,skill_like : 0,skill_self :skill[j].skill_self}}};
+                        level_id : find[0].skills[i].level_id,skill_like : find[0].skills[i].skill_like,skill_self :skill[j].skill_self}}};
                     await StudentModel.findOneAndUpdate(token,addLikeskills,{ new: true });
+                    // const addLikeskills = { $push: { skills : {_id : find[0].skills[i]._id, skill_name: find[0].skills[i].skill_name, 
+                    //     level_id : find[0].skills[i].level_id,skill_like : 0,skill_self :skill[j].skill_self}}};
+                    // await StudentModel.findOneAndUpdate(token,addLikeskills,{ new: true });
                 };
             };
         };
         for(let y = 0; y < m; y++){
             if(courseskill[y] == false){
-                // const addlikeskill = { $push:{skills : {_id : skill[y]._id ,skill_name :skill[y].name ,
-                //     level_id : skill[y].level_id,skill_like : skill[y].skill_like,skill_self:skill[y].skill_self }} }
-                // await StudentModel.findOneAndUpdate(token,addlikeskill,{ new: true });
                 const addlikeskill = { $push:{skills : {_id : skill[y]._id ,skill_name :skill[y].name ,
-                    level_id : skill[y].level_id,skill_like : 0,skill_self:skill[y].skill_self }} }
+                    level_id : skill[y].level_id,skill_like : skill[y].skill_like,skill_self:skill[y].skill_self }} }
                 await StudentModel.findOneAndUpdate(token,addlikeskill,{ new: true });
+                // const addlikeskill = { $push:{skills : {_id : skill[y]._id ,skill_name :skill[y].name ,
+                //     level_id : skill[y].level_id,skill_like : 0,skill_self:skill[y].skill_self }} }
+                // await StudentModel.findOneAndUpdate(token,addlikeskill,{ new: true });
             }
         }
         const final = await StudentModel.find({token :token});
