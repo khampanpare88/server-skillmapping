@@ -29,10 +29,8 @@ export const getCareers = async (req,res) =>{
 export const getCareer = async (req,res) =>{
     const token = req.params.token;
     const id  = req.params.id;
-    // const student = req.params.student;
 
     try{
-        // const test = await StudentModel.find({student_id : student});
         const student = await StudentModel.find({token:token});
         const career = await careersModel.find({_id : id});
         const course = await CoursesModel.find();
@@ -42,8 +40,6 @@ export const getCareer = async (req,res) =>{
         var careerlevel = [];
         const n = student[0].skills.length;
         const m = career[0].skills.length;
-        // console.log(n);
-        // console.log(m);
         for(let i = 0; i < n ; i++){
             for(let j = 0; j < m ; j++){
                 if(student[0].skills[i].skill_name === career[0].skills[j].skill_name ){
@@ -62,7 +58,6 @@ export const getCareer = async (req,res) =>{
         for(let i=0; i< CoursesModel.find(); i++){
             coursetest.push(false);
         };
-        console.log(student[0].courses.length);
         if(student[0].courses.length === 0){
             for(let i = 0; i < course.length ;i++){
                 for(let m=0;m < course[i].skills.length ;m++){
@@ -97,21 +92,26 @@ export const getCareer = async (req,res) =>{
                                 };
                             };
                         };
-                    };
+                    }
                 };
             };
         }
-        
-        
         var courses = [];
         let x = 0;
         for(let i=0;i<coursecheck.length;i++){
             if(coursecheck[i] !== undefined){
-                courses[x++] = coursecheck[i];
+                courses[x] = coursecheck[i];
+                x++;
+            };
+        };
+        for(let i =0;i<student[0].courses.length;i++){
+            for(let j=0;j< courses.length;j++){
+                if(courses[j].name === student[0].courses[i].course_name){
+                    courses.splice(j, 1);
+                };
             };
         };
 
-        console.log(courses)
         chart[0] = skillname;
         chart[1] = studentlevel;
         chart[2] = careerlevel;
@@ -120,8 +120,6 @@ export const getCareer = async (req,res) =>{
             chart,
             courses
         };
-
-        // console.log(obj);
         res.status(200).json(obj);
     } catch(error){
         res.status(404).json( {message: error.message });
