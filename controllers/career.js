@@ -7,6 +7,18 @@ export const getCareers = async (req,res) =>{
 
     try{
         const career = await careersModel.find();
+
+        function compare( a, b ) {
+            if ( a.name_career < b.name_career ){
+              return -1;
+            }
+            if ( a.name_career > b.name_career ){
+              return 1;
+            }
+            return 0;
+          }
+          
+        career.sort( compare );
         res.status(200).json(career);
     } catch(error){
         res.status(404).json( {message: error.message });
