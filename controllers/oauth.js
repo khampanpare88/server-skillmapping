@@ -4,8 +4,10 @@ import StudentModel from '../models/studentmodent.js';
 import SkillsModel from '../models/skillmodel.js';
 
 export const login = async (req,res) =>{
-    const authorizationCode = req.body;
-    // const authorizationCode = 'AjfQkBGr5kCSbu08M8hRTTYbHyq17RBs';
+    const authorizationCode = req.body.authorizationCode;
+    console.log(authorizationCode);
+
+    // const authorizationCode = 'Av37sKx4ZKWyW29YF8eDMnWPxQ8SXAw8';
     async function getOAuthAccessTokenAsync(authorizationCode){
         try {
             const response = await axios.post(
@@ -46,7 +48,6 @@ export const login = async (req,res) =>{
         const accessToken = await getOAuthAccessTokenAsync(authorizationCode);
         if (!accessToken){
             return res.status(400).json({ ok: false, message: "Cannot get OAuth access token" });
-
         };
             
         //get basic info
@@ -111,8 +112,10 @@ export const login = async (req,res) =>{
                 student_name : cmuBasicInfo.firstname_EN +" "+ cmuBasicInfo.lastname_EN,
                 studentId: cmuBasicInfo.student_id,
             };
+            console.log(obj);
             res.status(201).json (obj);
         };
+
 
         //   res.status(200).json(cmuBasicInfo.firstname_EN);
 
