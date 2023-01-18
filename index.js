@@ -2,6 +2,11 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
+// import dotenv from 'dotenv';
+// require('dotenv').config();
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 
 import coursesRouters from './routes/courses.js';
 import skillRouters from './routes/skills.js';
@@ -15,6 +20,7 @@ import addLikeskills from './routes/student.js';
 import addSelfkills from './routes/student.js';
 import deleteCourse from './routes/student.js';
 import SkilltoCareer from './routes/student.js';
+import login from './routes/oauth.js';
 
 
 
@@ -29,6 +35,7 @@ app.use('/courses' ,coursesRouters ,updateCoursesSkill);
 app.use('/skills',skillRouters ,newSkill);
 app.use('/career' , getCareers, getCareer );
 app.use('/student' , getStudent,addCourses,addLikeskills,addSelfkills,deleteCourse,SkilltoCareer);
+app.use('/login' ,login);
 
 
 

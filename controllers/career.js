@@ -31,7 +31,7 @@ export const getCareer = async (req,res) =>{
     const id  = req.params.id;
 
     try{
-        const student = await StudentModel.find({token:token});
+        const student = await StudentModel.find({student_id:token});
         const career = await careersModel.find({_id : id});
         const course = await CoursesModel.find();
         var chart =[3];

@@ -12,7 +12,7 @@ export const getStudent = async (req,res) =>{
         // console.log(courses[0].skills[0]);
         // console.log(student[0].skills[0].skill_name);
 
-        const student =  await StudentModel.find({token : token_id});
+        const student =  await StudentModel.find({student_id : token_id});
         const check = await SkillsModel.find();
         var skillslist =[];
         for(let i=0;i<check.length;i++){
@@ -49,7 +49,7 @@ export const addLikeskills = async (req,res) =>{
         console.log(skill);
         try{
             console.log(token,skill);
-            const find = await StudentModel.find({token :token});
+            const find = await StudentModel.find({student_id :token});
             console.log(find);
             // console.log(find[0].skills.length);
             const n = find[0].skills.length;
@@ -81,7 +81,7 @@ export const addLikeskills = async (req,res) =>{
                     await StudentModel.findOneAndUpdate(token,addlikeskill,{ new: true });
                 }
             }
-            const final = await StudentModel.find({token :token});
+            const final = await StudentModel.find({student_id :token});
             const check = await SkillsModel.find();
     
             var skills =[];
@@ -116,7 +116,7 @@ export const addSelfkills = async (req,res) =>{
         console.log(token,skill);
         try{
 
-        const find = await StudentModel.find({token :token});
+        const find = await StudentModel.find({student_id :token});
         // console.log(find[0].skills.length);
         const n = find[0].skills.length;
         const m = skill.length;
@@ -153,7 +153,7 @@ export const addSelfkills = async (req,res) =>{
                 // await StudentModel.findOneAndUpdate(token,addlikeskill,{ new: true });
             }
         }
-        const final = await StudentModel.find({token :token});
+        const final = await StudentModel.find({student_id :token});
         const check = await SkillsModel.find();
 
         var skills =[];
@@ -205,11 +205,11 @@ export const addCourses = async (req,res) =>{
             // console.log("done");
             // console.log(student);
             const course = await CoursesModel.find({_id : id,course_name : course_name,course_id : course_id});
-            const student = await StudentModel.find({token:token});
+            const student = await StudentModel.find({student_id:token});
             const n = course[0].skills.length;
             const m = student[0].skills.length;
 
-            const check = await StudentModel.find({token:token, skills : student[0].skills});
+            const check = await StudentModel.find({student_id:token, skills : student[0].skills});
             // console.log(check);
             if(check.length !== 0){
                 // console.log("!==");
@@ -275,7 +275,7 @@ export const addCourses = async (req,res) =>{
                     await StudentModel.findOneAndUpdate(token,addskill,{ new: true });
                 }
             };
-            const done = await StudentModel.find({token : token,courses:{_id :id,course_name :course_name,course_id:course_id}});
+            const done = await StudentModel.find({student_id : token,courses:{_id :id,course_name :course_name,course_id:course_id}});
             res.status(200).json(done);
         };
     }

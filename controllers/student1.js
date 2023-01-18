@@ -7,7 +7,7 @@ export const deleteCourse = async (req,res) =>{
     try{
         const deletecourse = { $pull: { courses : {course_name : course_name,course_id : course_id} } };
         const student = await StudentModel.findOneAndUpdate(token,deletecourse,{ new: true });
-        const studentafter = await StudentModel.find({token:token});
+        const studentafter = await StudentModel.find({student_id:token});
         // console.log(studentafter[0].courses.length);
         
         if(studentafter[0].courses.length === 0){
@@ -58,7 +58,7 @@ export const deleteCourse = async (req,res) =>{
                 };
             };
 
-            const studentafter1 = await StudentModel.find({token:token});
+            const studentafter1 = await StudentModel.find({student_id:token});
             //add skillจากวิชาที่เหลือ
             for(let i=0;i<studentafter1[0].courses.length;i++){
                 for(let j =0;j<course.length;j++){
