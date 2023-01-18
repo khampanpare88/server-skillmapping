@@ -4,8 +4,8 @@ import StudentModel from '../models/studentmodent.js';
 import SkillsModel from '../models/skillmodel.js';
 
 export const login = async (req,res) =>{
-    // const authorizationCode = req.body;
-    const authorizationCode = 'AjfQkBGr5kCSbu08M8hRTTYbHyq17RBs';
+    const authorizationCode = req.body;
+    // const authorizationCode = 'AjfQkBGr5kCSbu08M8hRTTYbHyq17RBs';
     async function getOAuthAccessTokenAsync(authorizationCode){
         try {
             const response = await axios.post(
