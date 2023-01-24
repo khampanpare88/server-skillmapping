@@ -16,7 +16,7 @@ export const getCareers = async (req,res) =>{
               return 1;
             }
             return 0;
-          }
+        }
           
         career.sort( compare );
         res.status(200).json(career);

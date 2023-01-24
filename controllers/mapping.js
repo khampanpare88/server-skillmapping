@@ -4,59 +4,116 @@ import SkillsModel from '../models/skillmodel.js';
 import StudentModel from '../models/studentmodent.js';
 
 // course map skill
-export const SkilltoCourse = async (req,res) =>{
-    const {token} = req.param.token;
-    const student = await StudentModel.find(token);
-    const courses = await CoursesModel.find();
-
-    const n = student[0].skills.length;
-    const m = courses[0].skills.length;
-    const w =[];
-    const p =[];
-    const q =[];
-
-
-    // const  id  = req.params.id;
-    // // const student = req.params.student;
-    // const student = req.params.student;
-
-    // try{
-
-    //     res.status(200).json(career);
-    // } catch(error){
-    //     res.status(404).json( {message: error.message });
-    // }
-};
-
-// career map skill
-export const SkilltoCareer = async (req,res) =>{
-    // const {token} = req.param;
-    const token = 12345;
-
-    const student = await StudentModel.find({token:token});
+export const SkillMapping = async (req,res) =>{
+    const token = req.param.token;
+    // const token = 620610777;
+    const student = await StudentModel.find({ student_id : token });
+    const skills = await SkillsModel.find();
     const career = await careersModel.find();
 
-    // const n = student[0].skills.length;
-    // const m = career[0].skills.length;
-    var w =[];
-    let p =[];
-    let q =[];
+    var skillsstudent = [];
+    var bycourses =[];
+    var byself =[];
+    var careers =[];
+    
+    var like = 0;
+    var distance = 0;
+    var distance1 = 0;
+
+    var minus =0;
+    var minus1 =0;
+    
+
     try{
-        for(let i = 0;i < student[0].skills.length ;i ++){
-            // console.log(w[i]);
-            // console.log(student[0].skills[i].level_id);
-            // console.log(parseFloat(student[0].skills[19].level_id) + parseFloat(student[0].skills[20].level_id));
-        };
-        // for(let i=0; i<21 ;i++){
-        //     console.log(w[i]);
-        // };
-        for(let j = 0; j < 21;j++){
-            if(w[j] === undefined){
-                w[j] = 0;
+        for(let i=0;i<skills.length;i++){
+            for(let j=0;j<student[0].skills.length;j++){
+                if(skills[i].name === student[0].skills[j].skill_name){
+                    // console.log(skills[i].name);
+                    console.log(student[0].skills[j].skill_name);
+                    like = student[0].skills[j].skill_like/4;
+                    skillsstudent[i] = {
+                        skill_name : student[0].skills[j].skill_name,
+                        level_id : student[0].skills[j].level_id,
+                        skill_like : like,
+                        skill_self : student[0].skills[j].skill_self
+                    };
+                };
             };
         };
 
-        res.status(200).json(student);
+        for(let j =0; j< career.length; j++){
+            var skillscareers =[];
+            for(let i=0;i<skills.length;i++){
+                for(let k=0; k<career[j].skills.length;k++){
+                    if(skills[i].name === career[j].skills[k].skill_name){
+                        skillscareers[i] = {
+                            skill_name : skills[i].name,
+                            level_id : career[j].skills[k].level_id
+                        };
+                    };
+                    console.log(career[j].skills[k].skill_name);
+                    if(skillscareers[i] == null || skillscareers[i] == undefined ){
+                        skillscareers[i] = {
+                            skill_name : skills[i].name,
+                            level_id : 0
+                        };
+                    }
+                };
+            };
+            careers[j] ={
+                name_career : career[j].name_career,
+                skillscareers
+            };
+        };
+
+
+        for(let i=0;i<skillsstudent.length;i++){
+            for(let j=0;j<careers.length;j++){
+                for(let k=0;k<careers[j].skillscareers.length;k++){
+                    if(careers[j].skillscareers[k].level_id !=0){
+                        minus = (careers[j].skillscareers[k].level_id - skillsstudent[i].level_id * skillsstudent[i].skill_like) ** 2;
+                        minus += minus;
+
+                        minus1 = (careers[j].skillscareers[k].level_id - skillsstudent[i].level_id * skillsstudent[i].skill_like) ** 2;
+                        minus1 += minus1;
+                    };
+                    distance = minus ** 0.5;
+                    distance1 = minus1 ** 0.5;
+
+                    bycourses[j] = {
+                        career : careers[j].name_career,
+                        distance : distance
+                    };
+
+                    byself[j] = {
+                        career : careers[j].name_career,
+                        distance : distance1
+                    };
+                };
+            };
+
+        };
+
+
+        function compare( a, b ) {
+            if ( a.distance < b.distance ){
+              return 1;
+            }
+            if ( a.distance > b.distance ){
+              return -1;
+            }
+            return 0;
+        }
+
+        bycourses = bycourses.sort( compare );
+        byself =byself.sort( compare );
+        
+        var Obj = {
+            bycourses,
+            byself
+        };
+
+        res.status(200).json(Obj);
     } catch(error){
         res.status(404).json( {message: error.message });
     }
