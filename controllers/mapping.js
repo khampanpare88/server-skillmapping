@@ -85,13 +85,13 @@ export const SkillMapping = async (req,res) =>{
                     bycourses[j] = {
                         _id : careers[j]._id,
                         career : careers[j].name_career,
-                        distance : distance
+                        distance : distance.toFixed(2)
                     };
 
                     byself[j] = {
                         _id : careers[j]._id,
                         career : careers[j].name_career,
-                        distance : distance1
+                        distance : distance1.toFixed(2)
                     };
                 };
             };
