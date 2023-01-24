@@ -5,9 +5,9 @@ import StudentModel from '../models/studentmodent.js';
 
 // course map skill
 export const SkillMapping = async (req,res) =>{
-    const token = req.param.token;
+    const  token  = req.params.token;
     // const token = 620610777;
-    const student = await StudentModel.find({ student_id : token });
+    const student =  await StudentModel.find({student_id : token });
     const skills = await SkillsModel.find();
     const career = await careersModel.find();
 
@@ -97,10 +97,10 @@ export const SkillMapping = async (req,res) =>{
 
         function compare( a, b ) {
             if ( a.distance < b.distance ){
-              return 1;
+              return -1;
             }
             if ( a.distance > b.distance ){
-              return -1;
+              return 1;
             }
             return 0;
         }
