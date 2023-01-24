@@ -29,7 +29,7 @@ export const SkillMapping = async (req,res) =>{
             for(let j=0;j<student[0].skills.length;j++){
                 if(skills[i].name === student[0].skills[j].skill_name){
                     // console.log(skills[i].name);
-                    console.log(student[0].skills[j].skill_name);
+                    // console.log(student[0].skills[j].skill_name);
                     like = student[0].skills[j].skill_like/4;
                     skillsstudent[i] = {
                         skill_name : student[0].skills[j].skill_name,
@@ -51,7 +51,7 @@ export const SkillMapping = async (req,res) =>{
                             level_id : career[j].skills[k].level_id
                         };
                     };
-                    console.log(career[j].skills[k].skill_name);
+                    // console.log(career[j].skills[k].skill_name);
                     if(skillscareers[i] == null || skillscareers[i] == undefined ){
                         skillscareers[i] = {
                             skill_name : skills[i].name,
@@ -70,11 +70,12 @@ export const SkillMapping = async (req,res) =>{
         for(let i=0;i<skillsstudent.length;i++){
             for(let j=0;j<careers.length;j++){
                 for(let k=0;k<careers[j].skillscareers.length;k++){
-                    if(careers[j].skillscareers[k].level_id !=0){
-                        minus = (careers[j].skillscareers[k].level_id - skillsstudent[i].level_id * skillsstudent[i].skill_like) ** 2;
+                    if(careers[j].skillscareers[k].level_id !== 0){
+                        minus = (careers[j].skillscareers[k].level_id - (skillsstudent[i].level_id * skillsstudent[i].skill_like)) ** 2;
                         minus += minus;
+                        // console.log(minus);
 
-                        minus1 = (careers[j].skillscareers[k].level_id - skillsstudent[i].level_id * skillsstudent[i].skill_like) ** 2;
+                        minus1 = (careers[j].skillscareers[k].level_id - (skillsstudent[i].skill_self * skillsstudent[i].skill_like)) ** 2;
                         minus1 += minus1;
                     };
                     distance = minus ** 0.5;
@@ -108,6 +109,22 @@ export const SkillMapping = async (req,res) =>{
         bycourses = bycourses.sort( compare );
         byself =byself.sort( compare );
         
+        bycourses = [
+            bycourses[0],
+            bycourses[1],
+            bycourses[2],
+            bycourses[3],
+            bycourses[4]
+        ];
+
+        byself =[
+            byself[0],
+            byself[1],
+            byself[2],
+            byself[3],
+            byself[4]
+        ];
+
         var Obj = {
             bycourses,
             byself
