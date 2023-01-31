@@ -6,6 +6,7 @@ import StudentModel from '../models/studentmodent.js';
 // course map skill
 export const SkillMapping = async (req,res) =>{
     const  token  = req.params.token;
+    console.log(token);
     // const token = 620610777;
     const student =  await StudentModel.find({student_id : token });
     const skills = await SkillsModel.find();
@@ -20,8 +21,11 @@ export const SkillMapping = async (req,res) =>{
     var distance = 0;
     var distance1 = 0;
 
-    var minus =0;
-    var minus1 =0;
+    // var sum =0 ;
+    // var sum1 =0;
+
+    // var minus =0;
+    // var minus1 =0;
     
 
     try{
@@ -66,37 +70,46 @@ export const SkillMapping = async (req,res) =>{
                 skillscareers
             };
         };
+        for(let j=0;j<careers.length;j++){
+            var sum = 0 ;
+            var sum1 = 0;
 
+            var minus = 0;
+            var minus1 = 0;
+            for(let k=0;k<careers[j].skillscareers.length;k++){
+                var q = careers[j].skillscareers[k].level_id;
+                for(let i=0;i<skillsstudent.length;i++){
+                    var w = skillsstudent[i].skill_like;
+                    var pl = skillsstudent[i].level_id;
+                    var ps = skillsstudent[i].skill_self;
+                    if(skillsstudent[i].skill_name === careers[j].skillscareers[k].skill_name  && q !== 0){
+                        minus =  (q-(w*pl))**2;
+                        sum = sum + minus ;
 
-        for(let i=0;i<skillsstudent.length;i++){
-            for(let j=0;j<careers.length;j++){
-                for(let k=0;k<careers[j].skillscareers.length;k++){
-                    if(careers[j].skillscareers[k].level_id !== 0){
-                        minus = (careers[j].skillscareers[k].level_id - (skillsstudent[i].level_id * skillsstudent[i].skill_like)) ** 2;
-                        minus += minus;
-                        // console.log(minus);
+                        minus1 =  (q-(w*ps))**2;
+                        sum1 = sum1 + minus1 ;
 
-                        minus1 = (careers[j].skillscareers[k].level_id - (skillsstudent[i].skill_self * skillsstudent[i].skill_like)) ** 2;
-                        minus1 += minus1;
                     };
-                    distance = minus ** 0.5;
-                    distance1 = minus1 ** 0.5;
+                    distance = sum ** 0.5;
+                    distance1 = sum1 ** 0.5;
 
                     bycourses[j] = {
                         _id : careers[j]._id,
                         career : careers[j].name_career,
                         distance : distance.toFixed(2)
                     };
-
+    
                     byself[j] = {
                         _id : careers[j]._id,
                         career : careers[j].name_career,
                         distance : distance1.toFixed(2)
-                    };
-                };
-            };
+                    }
 
-        };
+                };
+
+            }
+            
+        }
 
 
         function compare( a, b ) {
@@ -132,6 +145,8 @@ export const SkillMapping = async (req,res) =>{
             bycourses,
             byself
         };
+
+        // console.log(Obj);
 
         res.status(200).json(Obj);
     } catch(error){
