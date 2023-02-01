@@ -6,7 +6,7 @@ import StudentModel from '../models/studentmodent.js';
 // course map skill
 export const SkillMapping = async (req,res) =>{
     const  token  = req.params.token;
-    console.log(token);
+    // console.log(token);
     // const token = 620610777;
     const student =  await StudentModel.find({student_id : token });
     const skills = await SkillsModel.find();
@@ -18,6 +18,7 @@ export const SkillMapping = async (req,res) =>{
     var careers =[];
     
     var like = 0;
+    var level_id = 0;
     var distance = 0;
     var distance1 = 0;
 
@@ -34,10 +35,16 @@ export const SkillMapping = async (req,res) =>{
                 if(skills[i].name === student[0].skills[j].skill_name){
                     // console.log(skills[i].name);
                     // console.log(student[0].skills[j].skill_name);
+                    if(student[0].skills[j].level_id === undefined){
+                        level_id = 0;
+                    }
+                    else {
+                        level_id = student[0].skills[j].level_id;
+                    }
                     like = student[0].skills[j].skill_like/4;
                     skillsstudent[i] = {
                         skill_name : student[0].skills[j].skill_name,
-                        level_id : student[0].skills[j].level_id,
+                        level_id : level_id,
                         skill_like : like,
                         skill_self : student[0].skills[j].skill_self
                     };
@@ -82,11 +89,19 @@ export const SkillMapping = async (req,res) =>{
                     var w = skillsstudent[i].skill_like;
                     var pl = skillsstudent[i].level_id;
                     var ps = skillsstudent[i].skill_self;
+                    // skill career >> skill student
+                    // skill carrer << skill student
+                    var wpl = w*pl;
+                    var wps = w*ps;
                     if(skillsstudent[i].skill_name === careers[j].skillscareers[k].skill_name  && q !== 0){
-                        minus =  (q-(w*pl))**2;
+                        if( wpl > q || wps > q){
+                            wpl = 0;
+                            wps = 0;
+                        }
+                        minus =  (q-(wpl))**2;
                         sum = sum + minus ;
 
-                        minus1 =  (q-(w*ps))**2;
+                        minus1 =  (q-(wps))**2;
                         sum1 = sum1 + minus1 ;
 
                     };

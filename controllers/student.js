@@ -46,11 +46,11 @@ export const getStudent = async (req,res) =>{
 export const addLikeskills = async (req,res) =>{
     // sent array 
         const {token,skill} = req.body;
-        console.log(skill);
+        // console.log(skill);
         try{
-            console.log(token,skill);
+            // console.log(token,skill);
             const find = await StudentModel.find({student_id :token});
-            console.log(find);
+            // console.log(find);
             // console.log(find[0].skills.length);
             const n = find[0].skills.length;
             const m = skill.length;
@@ -113,7 +113,7 @@ export const addLikeskills = async (req,res) =>{
 export const addSelfkills = async (req,res) =>{
     // sent array 
         const {token,skill} = req.body;
-        console.log(token,skill);
+        // console.log(token,skill);
         try{
 
         const find = await StudentModel.find({student_id :token});
@@ -170,7 +170,7 @@ export const addSelfkills = async (req,res) =>{
             };
         };
 
-        console.log(skills);
+        // console.log(skills);
 
         var obj = {
             final,
