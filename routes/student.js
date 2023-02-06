@@ -16,4 +16,5 @@ router.post( '/delete',deleteCourse);
 router.get( '/mapping/:token',SkillMapping);
 
 
+
 export default router;

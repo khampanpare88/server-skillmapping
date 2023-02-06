@@ -1,4 +1,5 @@
 import CoursesModel from '../models/coursesmodel.js';
+import StudentModel from '../models/studentmodent.js';
 import mongoose from 'mongoose';
 
 export const getCourses = async (req,res) =>{
@@ -18,13 +19,14 @@ export const getCourses = async (req,res) =>{
 
 export const UpdateorNew = async (req,res) =>{
     const { course_id, topic,skills,isSelTopic } = req.body;
-    //console.log(req.body);
+    console.log(req.body);
     const sel_topic = topic;
     // console.log(skills[0].skill_name,skills[0].level_id);
     // console.log(skills[1].skill_name,skills[1].level_id);
     if( isSelTopic == true /*เป็นseltopic*/){
         const seltopic = await CoursesModel.find({_id : course_id});
-        const Courses = new CoursesModel({ id : course_id ,name : seltopic[0].name,sel_topic,skills})
+        console.log(seltopic);
+        const Courses = new CoursesModel({ id : seltopic[0].id ,name : seltopic[0].name,sel_topic,skills})
             try {
                 await Courses.save();
         
@@ -32,26 +34,8 @@ export const UpdateorNew = async (req,res) =>{
             } catch (error) {
                 res.status(409).json({ message: error.message });
             }
-
-
-
-        if(course_id == '6335309e1145d8b493deb6a3' ){
-            const Courses = new CoursesModel({ id : "261498",name : "Selected Topics in Computer Networks" , sel_topic,skills})
-            try {
-                await Courses.save();
-        
-                res.status(201).json (Courses );
-            } catch (error) {
-                res.status(409).json({ message: error.message });
-            }
-
-        }
     }
     else{
-        // const { course_id,skills } = req.body;
-
-        //console.log(req.body);
-        //console.log(skills);
 
         if (!mongoose.Types.ObjectId.isValid(course_id)) return res.status(404).send(`No post with id: ${course_id}`);
 
@@ -64,4 +48,36 @@ export const UpdateorNew = async (req,res) =>{
         //console.log(res);
     }
 
-}
+};
+
+
+export const restCourses = async (req,res) =>{
+    const id = req.params.id;
+    console.log(id)
+    try{
+        const student = await StudentModel.find({student_id : id});
+        const courses = await CoursesModel.find();
+        // console.log(courses)
+        // console.log("courses" , courses.length)
+        var restcourses = courses;
+        // console.log(restcourses)
+        for(let i=0;i<student[0].courses.length;i++){
+            for(let j=0;j<restcourses.length;j++){
+                // console.log(restcourses[j]);
+                if(student[0].courses[i].course_name === restcourses[j].name && student[0].courses[i].course_id === restcourses[j].id){
+                    restcourses.splice(j, 1);
+                }
+                else if(student[0].courses[i].course_name === restcourses[j].name && student[0].courses[i].course_id === restcourses[j].id && student[0].courses[i].sel_topic === restcourses[j].sel_topic ){
+                    restcourses.splice(j, 1);
+                }
+            }
+        }
+        // console.log("student" ,student[0].courses.length)
+        // console.log("restcourses" , restcourses.length)
+        res.status(200).json(restcourses);
+    } catch(error){
+        res.status(404).json( {message: error.message });
+    }
+};
+
+

@@ -8,6 +8,7 @@ const studentSchema = mongoose.Schema({
         {
         course_name : String,
         course_id : String,
+        sel_topic : String
         }
     ],
     skills : [
@@ -15,8 +16,7 @@ const studentSchema = mongoose.Schema({
         skill_name : String,
         level_id : String,
         skill_like : String,
-        skill_self :String,
-        levelmullike : String
+        skill_self :String
         }
     ]
 },{versionKey: false});

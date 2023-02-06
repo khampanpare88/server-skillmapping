@@ -9,11 +9,15 @@ dotenv.config();
 
 
 import coursesRouters from './routes/courses.js';
-import skillRouters from './routes/skills.js';
 import updateCoursesSkill from './routes/courses.js';
+import restCourses from './routes/courses.js';
+
+import skillRouters from './routes/skills.js';
 import newSkill from './routes/skills.js';
+
 import getCareer from './routes/career.js';
 import getCareers from './routes/career.js';
+
 import getStudent from './routes/student.js';
 import addCourses from './routes/student.js';
 import addLikeskills from './routes/student.js';
@@ -21,6 +25,7 @@ import addSelfkills from './routes/student.js';
 import deleteCourse from './routes/student.js';
 import SkilltoCareer from './routes/student.js';
 import SkillMapping from './routes/student.js';
+
 import login from './routes/oauth.js';
 
 
@@ -32,7 +37,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use('/courses' ,coursesRouters ,updateCoursesSkill);
+app.use('/courses' ,coursesRouters ,updateCoursesSkill,restCourses);
 app.use('/skills',skillRouters ,newSkill);
 app.use('/career' , getCareers, getCareer );
 app.use('/student' , getStudent,addCourses,addLikeskills,addSelfkills,deleteCourse,SkilltoCareer,SkillMapping);
