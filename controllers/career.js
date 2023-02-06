@@ -1,6 +1,7 @@
 import careersModel from '../models/careermodel.js';
 import StudentModel from '../models/studentmodent.js';
 import CoursesModel from '../models/coursesmodel.js';
+import SkillsModel  from '../models/skillmodel.js'
 
 //show career
 export const getCareers = async (req,res) =>{
@@ -34,6 +35,36 @@ export const getCareer = async (req,res) =>{
         const student = await StudentModel.find({student_id:token});
         const career = await careersModel.find({_id : id});
         const course = await CoursesModel.find();
+        const skill = await SkillsModel.find();
+
+        var skills =[];
+        //des
+        for(let i = 0;i< career[0].skills.length;i++){
+            for(let j=0; j< skill.length; j++){
+                if(skill[j].name === career[0].skills[i].skill_name){
+                    for(let n=0;n<skill[j].levels.length;n++){
+                        if(skill[j].levels[n].level_id === career[0].skills[i].level_id){
+                            skills[i] = {
+                                skill_name : career[0].skills[i].skill_name,
+                                des : skill[j].des,
+                                des_thai : skill[j].des_thai,
+                                level_id : career[0].skills[i].level_id,
+                                des_level : skill[j].levels[n].level_des
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        career[0] = {
+            _id : career[0]._id,
+            name_career : career[0].name_career,
+            des : career[0].des,
+            des_thai : career[0].des_thai,
+            skills
+        }
+
+        //data chart
         var chart =[3];
         var skillname = [];
         var studentlevel = [];
@@ -96,6 +127,8 @@ export const getCareer = async (req,res) =>{
                 };
             };
         }
+
+        //แนะนำวิชา
         var courses = [];
         let x = 0;
         for(let i=0;i<coursecheck.length;i++){
@@ -112,11 +145,14 @@ export const getCareer = async (req,res) =>{
             };
         };
 
+        //console.log(career[0].skills);
+
         chart[0] = skillname;
         chart[1] = studentlevel;
         chart[2] = careerlevel;
         var obj = {
             career,
+            // skills,
             chart,
             courses
         };

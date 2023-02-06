@@ -7,10 +7,6 @@ export const getStudent = async (req,res) =>{
     // const token = 12345;
     const  token_id  = req.params.token;
     try{
-        // const student = await StudentModel.find({token : token});
-        // const student = await StudentModel.find({token : token_id});
-        // console.log(courses[0].skills[0]);
-        // console.log(student[0].skills[0].skill_name);
 
         const student =  await StudentModel.find({student_id : token_id});
         const check = await SkillsModel.find();
@@ -34,8 +30,6 @@ export const getStudent = async (req,res) =>{
         };
 
             res.status(200).json(obj);
-
-        // res.status(200).json(student);
     } catch(error){
         res.status(404).json( {message: error.message });
     }
@@ -181,103 +175,108 @@ export const addSelfkills = async (req,res) =>{
     } catch(error){
         res.status(404).json( {message: error.message });
     }
-    };
+};
 
 
 //add course
 export const addCourses = async (req,res) =>{
-    const { id,token,course_name,course_id } = req.body;
+    const { token, courses } = req.body;
+    // console.log(token,courses);
     try{
-        
-        const check = await StudentModel.find({token:token,courses:{_id : id,course_name : course_name,course_id :course_id}});
-
-        // console.log(check);
-        if(check.length !== 0){
-            
-            const student = await StudentModel.find({token : token});
-            // console.log("check");
-            // console.log(student);
-            res.status(200).json(student);
-        }
-        else if(check.length === 0){
-            const addCourses = { $push: { courses : {_id : id,course_name : course_name,course_id : course_id} } };
-            const studentaddcourses = await StudentModel.findOneAndUpdate(token,addCourses,{ new: true });
-            // console.log("done");
-            // console.log(student);
-            const course = await CoursesModel.find({_id : id,course_name : course_name,course_id : course_id});
-            const student = await StudentModel.find({student_id:token});
-            const n = course[0].skills.length;
-            const m = student[0].skills.length;
-
-            const check = await StudentModel.find({student_id:token, skills : student[0].skills});
-            // console.log(check);
-            if(check.length !== 0){
-                // console.log("!==");
-                // const n = course[0].skills.length;
-                // const m = student[0].skills.length;
-                var courseskill = [];
-                for(let x = 0; x < course[0].skills.length; x++){
-                    courseskill.push(false);
+        const student = await StudentModel.find({student_id:token});
+        for(let j=0;j<student[0].courses.length;j++){
+        for( let i=0;i<courses.length;i++ ){
+            // for(let j=0;j<check[0].courses.length;j++){
+                if(courses[i].name == student[0].courses[j].course_name){
+                    courses.splice(i, 1);
                 };
-                // let i = 0;
-                // let j = 0;
-                for(let i = 0; i < m ;i++){
-                    // console.log(" i = " ,i);
-                    // console.log(m);
-                    // console.log("i = ",student[0].skills[i]);
-
-                    for(let j = 0; j < n;j++){
-                        if(student[0].skills[i].skill_name === course[0].skills[j].skill_name){
-                            courseskill[j] = true;
-                            // console.log(student[0].skills[i].level_id);
-                            // console.log("if ==="); 
-                            // console.log(course[0].skills[j].skill_name);
-                            if(student[0].skills[i].level_id === undefined){
-                                
-                                const deleteskilllevel = { $pull:{skills : student[0].skills[i] } }
-                                await StudentModel.findOneAndUpdate(token,deleteskilllevel,{ new: true });
-
-                                const addskilllevel = { $push:{skills :{_id : course[0].skills[j]._id ,skill_name :course[0].skills[j].skill_name,level_id : course[0].skills[j].level_id, skill_like : student[0].skills[i].skill_like,skill_self:student[0].skills[i].skill_self }} }
-                                await StudentModel.findOneAndUpdate(token,addskilllevel,{ new: true });
-
-                                // const deleteskilllevel = { $pull:{skills : student[0].skills[i] } }
-                                // await StudentModel.findOneAndUpdate(token,deleteskilllevel,{ new: true });
-                                
-                            }
-                            else if(student[0].skills[i].level_id < course[0].skills[j].level_id){
-                                
-                                const deleteskilllevel = { $pull:{skills : student[0].skills[i] } }
-                                await StudentModel.findOneAndUpdate(token,deleteskilllevel,{ new: true });
-
-                                const addskilllevel = { $push:{skills :{_id : course[0].skills[j]._id ,skill_name :course[0].skills[j].skill_name,level_id : course[0].skills[j].level_id,skill_like : student[0].skills[i].skill_like,skill_self:student[0].skills[i].skill_self }} }
-                                await StudentModel.findOneAndUpdate(token,addskilllevel,{ new: true });
-
-                                // const deleteskilllevel = { $pull:{skills : student[0].skills[i] } }
-                                // await StudentModel.findOneAndUpdate(token,deleteskilllevel,{ new: true });
-                                
+            };
+        };
+        // console.log(courses);
+        if(courses.length !== 0){
+            for(let t=0;t<courses.length;t++){
+            const addCourses = { $push: { courses : {_id : courses[t]._id,course_name : courses[t].name,course_id : courses[t].id} } };
+            await StudentModel.findOneAndUpdate({student_id : token},addCourses,{ new: true });
+        
+                    // const course = await CoursesModel.find({_id : courses[t].id,course_name : courses[t].name,course_id : courses[t].id});
+                    const student = await StudentModel.find({student_id:token});
+                    // const n = course[0].skills.length;
+                    const m = student[0].skills.length;
+    
+                    const check = await StudentModel.find({student_id:token, skills : student[0].skills});
+                    if(check.length !== 0){
+                        var courseskill = [];
+                        for(let x = 0; x < courses[t].skills.length; x++){
+                            courseskill.push(false);
+                        };
+                    for(let i = 0; i < m ;i++){
+                        for(let j = 0; j < courses[t].skills.length;j++){
+                            if(student[0].skills[i].skill_name === courses[t].skills[j].skill_name){
+                                courseskill[j] = true;
+                                if(student[0].skills[i].level_id === undefined){
+                                    
+                                    const deleteskilllevel = { $pull:{skills : student[0].skills[i] } }
+                                    await StudentModel.findOneAndUpdate({student_id:token},deleteskilllevel,{ new: true });
+    
+                                    const addskilllevel = { $push:{skills :{
+                                        _id : courses[t].skills[j]._id ,
+                                        skill_name :courses[t].skills[j].skill_name,
+                                        level_id : courses[t].skills[j].level_id,
+                                        skill_like : student[0].skills[i].skill_like,
+                                        skill_self:student[0].skills[i].skill_self }} }
+                                    await StudentModel.findOneAndUpdate({student_id:token},addskilllevel,{ new: true });
+                                }
+                                else if(student[0].skills[i].level_id < courses[t].skills[j].level_id){
+                                    
+                                    const deleteskilllevel = { $pull:{skills : student[0].skills[i] } }
+                                    await StudentModel.findOneAndUpdate({student_id:token},deleteskilllevel,{ new: true });
+    
+                                    const addskilllevel = { $push:{skills :{
+                                        _id : courses[t].skills[j]._id ,
+                                        skill_name :courses[t].skills[j].skill_name,
+                                        level_id : courses[t].skills[j].level_id,
+                                        skill_like : student[0].skills[i].skill_like,
+                                        skill_self:student[0].skills[i].skill_self }} }
+                                    await StudentModel.findOneAndUpdate({student_id:token},addskilllevel,{ new: true });
+    
+                                    // const deleteskilllevel = { $pull:{skills : student[0].skills[i] } }
+                                    // await StudentModel.findOneAndUpdate(token,deleteskilllevel,{ new: true });
+                                    
+                                };
                             };
                         };
                     };
-                };
-                for(let y = 0; y < course[0].skills.length; y++){
-                    if(courseskill[y] == false){
-                        const addskill = { $push:{skills : {_id : course[0].skills[y]._id ,skill_name :course[0].skills[y].skill_name ,level_id : course[0].skills[y].level_id}} }
-                        await StudentModel.findOneAndUpdate(token,addskill,{ new: true });
+                    for(let y = 0; y < courses[t].skills.length; y++){
+                        if(courseskill[y] == false){
+                            const addskill = { $push:{skills : {
+                                _id : courses[t].skills[y]._id ,
+                                skill_name :courses[t].skills[y].skill_name ,
+                                level_id : courses[t].skills[y].level_id}} }
+                            await StudentModel.findOneAndUpdate({student_id:token},addskill,{ new: true });
+                        }
                     }
                 }
-            }
-            else if(check.length === 0){
-                // console.log("===");
-                // const addskill = { $push:{skills :course[0].skills} }
-                // await StudentModel.findOneAndUpdate(token,addskill,{ new: true });
-                for(let a = 0; a <n ;a++){
-                    const addskill = { $push:{skills :{_id : course[0].skills[a]._id ,skill_name :course[0].skills[a].skill_name ,level_id : course[0].skills[a].level_id,skill_like : course[0].skills[a].skill_like,skill_self:course[0].skills[a].skill_self}} }
-                    await StudentModel.findOneAndUpdate(token,addskill,{ new: true });
-                }
+                else if(check.length === 0){
+                    // console.log("===");
+                    // const addskill = { $push:{skills :course[0].skills} }
+                    // await StudentModel.findOneAndUpdate(token,addskill,{ new: true });
+                    for(let a = 0; a <n ;a++){
+                        const addskill = { $push:{skills :{
+                            _id : courses[t].skills[a]._id ,
+                            skill_name :courses[t].skills[a].skill_name ,
+                            level_id : courses[t].skills[a].level_id,
+                            skill_like : courses[t].skills[a].skill_like,
+                            skill_self:courses[t].skills[a].skill_self}} }
+                        await StudentModel.findOneAndUpdate({student_id:token},addskill,{ new: true });
+                    }
+                };
             };
-            const done = await StudentModel.find({student_id : token,courses:{_id :id,course_name :course_name,course_id:course_id}});
-            res.status(200).json(done);
-        };
+            }
+           
+            // res.status(200).json(student);
+        const done = await StudentModel.find({student_id : token});
+        // console.log(res);
+        res.status(200).json(done);
     }
     catch(error){
         res.status(404).json( {message: error.message });

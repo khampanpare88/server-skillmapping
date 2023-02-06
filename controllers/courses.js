@@ -18,57 +18,25 @@ export const getCourses = async (req,res) =>{
 
 export const UpdateorNew = async (req,res) =>{
     const { course_id, topic,skills,isSelTopic } = req.body;
+    //console.log(req.body);
     const sel_topic = topic;
     // console.log(skills[0].skill_name,skills[0].level_id);
     // console.log(skills[1].skill_name,skills[1].level_id);
     if( isSelTopic == true /*เป็นseltopic*/){
-        // const { id,name ,des , sel_topic,levels } = req.body;
+        const seltopic = await CoursesModel.find({_id : course_id});
+        const Courses = new CoursesModel({ id : course_id ,name : seltopic[0].name,sel_topic,skills})
+            try {
+                await Courses.save();
+        
+                res.status(201).json (Courses );
+            } catch (error) {
+                res.status(409).json({ message: error.message });
+            }
+
+
+
         if(course_id == '6335309e1145d8b493deb6a3' ){
             const Courses = new CoursesModel({ id : "261498",name : "Selected Topics in Computer Networks" , sel_topic,skills})
-            try {
-                await Courses.save();
-        
-                res.status(201).json (Courses );
-            } catch (error) {
-                res.status(409).json({ message: error.message });
-            }
-
-        }
-        else if(course_id == '633531851145d8b493deb6a4' ){
-            const Courses = new CoursesModel({ id : "261497",name : "Selected Topics in Computer Software" , sel_topic,skills})
-            try {
-                await Courses.save();
-        
-                res.status(201).json (Courses );
-            } catch (error) {
-                res.status(409).json({ message: error.message });
-            }
-
-        }
-        else if(course_id == '63b50116cc15ab4f81572fb7' ){
-            const Courses = new CoursesModel({ id : "261493",name : "Seminar" , sel_topic,skills})
-            try {
-                await Courses.save();
-        
-                res.status(201).json (Courses );
-            } catch (error) {
-                res.status(409).json({ message: error.message });
-            }
-
-        }
-        else if(course_id == '63b50136cc15ab4f81572fb8' ){
-            const Courses = new CoursesModel({ id : "261494",name : "Selected Topics in Computer Engineering" , sel_topic,skills})
-            try {
-                await Courses.save();
-        
-                res.status(201).json (Courses );
-            } catch (error) {
-                res.status(409).json({ message: error.message });
-            }
-
-        }
-        else if(course_id == '63b50152cc15ab4f81572fb9' ){
-            const Courses = new CoursesModel({ id : "261490",name : "Selected Topics in Computational Intelligence" , sel_topic,skills})
             try {
                 await Courses.save();
         
