@@ -25,7 +25,7 @@ export const UpdateorNew = async (req,res) =>{
     // console.log(skills[1].skill_name,skills[1].level_id);
     if( isSelTopic == true /*เป็นseltopic*/){
         const seltopic = await CoursesModel.find({_id : course_id});
-        console.log(seltopic);
+        // console.log(seltopic);
         const Courses = new CoursesModel({ id : seltopic[0].id ,name : seltopic[0].name,sel_topic,skills})
             try {
                 await Courses.save();
@@ -50,10 +50,10 @@ export const UpdateorNew = async (req,res) =>{
 
 };
 
-
+// /courses/:id(รหัสนักศึกษา)
 export const restCourses = async (req,res) =>{
     const id = req.params.id;
-    console.log(id)
+    // console.log(id)
     try{
         const student = await StudentModel.find({student_id : id});
         const courses = await CoursesModel.find();

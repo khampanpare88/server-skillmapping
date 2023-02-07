@@ -5,7 +5,7 @@ import SkillsModel from '../models/skillmodel.js';
 
 export const login = async (req,res) =>{
     const authorizationCode = req.body.authorizationCode;
-    console.log(authorizationCode);
+    // console.log(authorizationCode);
 
     // const authorizationCode = 'Av37sKx4ZKWyW29YF8eDMnWPxQ8SXAw8';
     async function getOAuthAccessTokenAsync(authorizationCode){
@@ -23,7 +23,7 @@ export const login = async (req,res) =>{
             );
             return response.data.access_token;
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             return null;
         }
     };
@@ -87,7 +87,7 @@ export const login = async (req,res) =>{
             };
         };
 
-        if(studentfind.length == 0){
+        if(studentfind.length === 0){
             const student = new StudentModel({token : accessToken,
                 student_name : cmuBasicInfo.firstname_EN +" "+ cmuBasicInfo.lastname_EN,
                 student_id : cmuBasicInfo.student_id,
@@ -106,14 +106,14 @@ export const login = async (req,res) =>{
             }
         } else { 
             const updatedtoken = { token : accessToken };
-            const student = await StudentModel.findOneAndUpdate({student_id:student_id}, updatedtoken, { new: true });
+            const student = await StudentModel.findOneAndUpdate({student_id: student_id}, updatedtoken, { new: true });
             var obj = {
                 token: accessToken,
                 cmuAccount: cmuBasicInfo.cmuitaccount,
                 student_name : cmuBasicInfo.firstname_EN +" "+ cmuBasicInfo.lastname_EN,
                 studentId: cmuBasicInfo.student_id,
             };
-            console.log(obj);
+            // console.log(obj);
             res.status(201).json (obj);
         };
 
