@@ -106,7 +106,7 @@ export const login = async (req,res) =>{
             }
         } else { 
             const updatedtoken = { token : accessToken };
-            const student = await StudentModel.findOneAndUpdate({student_id: student_id}, updatedtoken, { new: true });
+            await StudentModel.findOneAndUpdate({student_id: student_id}, updatedtoken, { new: true });
             var obj = {
                 token: accessToken,
                 cmuAccount: cmuBasicInfo.cmuitaccount,
