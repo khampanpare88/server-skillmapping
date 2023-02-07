@@ -36,7 +36,7 @@ export const login = async (req,res) =>{
                 }
             );
             return response.data ;
-        } catch (err) {
+        } catch (err) { 
             return null;
         }
     };
