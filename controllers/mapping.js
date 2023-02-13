@@ -85,24 +85,30 @@ export const SkillMapping = async (req,res) =>{
             var minus1 = 0;
             for(let k=0;k<careers[j].skillscareers.length;k++){
                 var q = careers[j].skillscareers[k].level_id;
+                var ql = careers[j].skillscareers[k].level_id;
+                var qs = careers[j].skillscareers[k].level_id;
                 for(let i=0;i<skillsstudent.length;i++){
                     var w = skillsstudent[i].skill_like;
                     var pl = skillsstudent[i].level_id;
                     var ps = skillsstudent[i].skill_self;
-                    // skill career >> skill student
-                    // skill carrer << skill student
+
                     var wpl = w*pl;
                     var wps = w*ps;
                     if(skillsstudent[i].skill_name === careers[j].skillscareers[k].skill_name  && q !== 0){
-                        if( wpl > q || wps > q){
+                        if( wpl > q ){
                             wpl = 0;
-                            wps = 0;
-                            q = 0;
+                            ql = 0;
+
                         }
-                        minus =  (q-(wpl))**2;
+                        else if( wps > q){
+                            wps = 0;
+                            qs = 0;
+                        }
+                        
+                        minus =  (ql-(wpl))**2;
                         sum = sum + minus ;
 
-                        minus1 =  (q-(wps))**2;
+                        minus1 =  (qs-(wps))**2;
                         sum1 = sum1 + minus1 ;
 
                     };
