@@ -97,6 +97,7 @@ export const SkillMapping = async (req,res) =>{
                         if( wpl > q || wps > q){
                             wpl = 0;
                             wps = 0;
+                            q = 0;
                         }
                         minus =  (q-(wpl))**2;
                         sum = sum + minus ;

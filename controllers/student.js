@@ -41,8 +41,8 @@ export const addLikeskills = async (req,res) =>{
     // sent array 
         const {token,skill} = req.body;
 
-        console.log(token);
-        console.log(skill);
+        // console.log(token);
+        // console.log(skill);
         try{
             // console.log(token,skill);
             const find = await StudentModel.find({student_id :token});
@@ -210,7 +210,7 @@ export const addCourses = async (req,res) =>{
                         for(let j = 0; j < courses[t].skills.length;j++){
                             if(student[0].skills[i].skill_name === courses[t].skills[j].skill_name){
                                 courseskill[j] = true;
-                                if(student[0].skills[i].level_id === undefined){
+                                if(student[0].skills[i].level_id === 0){
                                     
                                     const deleteskilllevel = { $pull:{skills : student[0].skills[i] } }
                                     await StudentModel.findOneAndUpdate({student_id:token},deleteskilllevel,{ new: true });
