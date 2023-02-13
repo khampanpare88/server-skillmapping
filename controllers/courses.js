@@ -9,6 +9,17 @@ export const getCourses = async (req,res) =>{
         // const n = courses[0].skills.length;
         // console.log(courses[0].skills,n);
         
+        function compare( a, b ) {
+            if ( a.id < b.id ){
+              return -1;
+            }
+            if ( a.id > b.id ){
+              return 1;
+            }
+            return 0;
+        }
+          
+        courses.sort( compare );
        
         res.status(200).json(courses);
     } catch(error){
@@ -74,6 +85,21 @@ export const restCourses = async (req,res) =>{
         }
         // console.log("student" ,student[0].courses.length)
         // console.log("restcourses" , restcourses.length)
+
+        function compare( a, b ) {
+            if ( a.id < b.id ){
+              return -1;
+            }
+            if ( a.id > b.id ){
+              return 1;
+            }
+            return 0;
+        }
+          
+        restcourses.sort( compare );
+        // console.log(restcourses)
+
+
         res.status(200).json(restcourses);
     } catch(error){
         res.status(404).json( {message: error.message });
