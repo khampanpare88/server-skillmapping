@@ -48,13 +48,13 @@ export const login = async (req,res) =>{
         //get access token
         const accessToken = await getOAuthAccessTokenAsync(authorizationCode);
         if (!accessToken){
-            return res.status(400).json({ ok: false, message: "Cannot get OAuth access token" });
+            return res.status(401).json({ ok: false, message: "Cannot get OAuth access token" });
         };
             
         //get basic info
         const cmuBasicInfo = await getCMUBasicInfoAsync(accessToken);
         if (!cmuBasicInfo){
-            return res.status(400).json({ ok: false, message: "Cannot get cmu basic info" });
+            return res.status(402).json({ ok: false, message: "Cannot get cmu basic info" });
         };
     
     try{
