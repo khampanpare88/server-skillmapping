@@ -23,7 +23,7 @@ export const login = async (req,res) =>{
             );
             return response.data.access_token;
         } catch (err) {
-            // console.log(err);
+            console.log(err);
             return null;
         }
     };
