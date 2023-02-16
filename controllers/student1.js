@@ -107,25 +107,27 @@ export const getSkillsStudent = async (req,res) =>{
     try{
 
         const student =  await StudentModel.find({student_id : token_id});
-        var skills = [];
+        var level_id = [];
+        var skills_name = [];
         for(let i=0; i<student[0].skills.length; i++){
-            skills[i] = {
-                skill_name : student[0].skills[i].skill_name,
-                level_id : student[0].skills[i].level_id
-            }
+            skills_name[i] = student[0].skills[i].skill_name;
+            level_id[i] = student[0].skills[i].level_id;
         }
 
-        function compare( a, b ) {
-            if ( a.skill_name < b.skill_name ){
-              return -1;
-            }
-            if ( a.skill_name > b.skill_name ){
-              return 1;
-            }
-            return 0;
-        }
+        // function compare( a, b ) {
+        //     if ( a.skill_name < b.skill_name ){
+        //       return -1;
+        //     }
+        //     if ( a.skill_name > b.skill_name ){
+        //       return 1;
+        //     }
+        //     return 0;
+        // }
           
-        skills.sort( compare );
+        // skills.sort( compare );
+        var skills = [];
+        skills[0] = skills_name;
+        skills[1] = level_id;
 
         var date = student[0].time_stamp;
 
@@ -133,7 +135,7 @@ export const getSkillsStudent = async (req,res) =>{
             skills,
             date
         }
-        console.log(date);
+        // console.log(date);
             res.status(200).json(obj);
     } catch(error){
         res.status(404).json( {message: error.message });
