@@ -87,10 +87,12 @@ export const login = async (req,res) =>{
             };
         };
 
+        let d = new Date(year,month,day);
+
         if(studentfind.length === 0){
             const student = new StudentModel({token : accessToken,
                 student_name : cmuBasicInfo.firstname_EN +" "+ cmuBasicInfo.lastname_EN,
-                student_id : cmuBasicInfo.student_id,
+                student_id : cmuBasicInfo.student_id,time_stamp : d,
                 skills : skills})
             try {
                 await student.save();
@@ -105,7 +107,6 @@ export const login = async (req,res) =>{
                 res.status(409).json({ message: error.message });
             }
         } else { 
-            const d = new Date();
             const updatedtoken = { token : accessToken , time_stamp : d};
             await StudentModel.findOneAndUpdate({student_id: student_id}, updatedtoken, { new: true });
             var obj = {
