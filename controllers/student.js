@@ -46,16 +46,10 @@ export const addLikeskills = async (req,res) =>{
         try{
             // console.log(token,skill);
             const find = await StudentModel.find({student_id :token});
-            // console.log(find);
-            // console.log(find[0].skills.length);
+
             const n = find[0].skills.length;
             const m = skill.length;
-            // console.log(n);
-            // console.log(m);
-            // var courseskill = [];
-            // for(let x = 0; x < m; x++){
-            //     courseskill.push(false);
-            // };
+
             for(let i = 0;i < find[0].skills.length;i++){
                 for(let j =0; j< skill.length;j++){
                     // console.log(skill[j]);
@@ -70,13 +64,7 @@ export const addLikeskills = async (req,res) =>{
                     };
                 };
             };
-            // for(let y = 0; y < m; y++){
-            //     if(courseskill[y] == false){
-            //         const addlikeskill = { $push:{skills : {_id : skill[y]._id ,skill_name :skill[y].skill_name ,
-            //             level_id : skill[y].level_id,skill_like : skill[y].skill_like,skill_self:skill[y].skill_self }} }
-            //         await StudentModel.findOneAndUpdate(token,addlikeskill,{ new: true });
-            //     }
-            // }
+ 
             const final = await StudentModel.find({student_id :token});
             const check = await SkillsModel.find();
     

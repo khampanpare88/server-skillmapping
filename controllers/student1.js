@@ -97,3 +97,44 @@ export const deleteCourse = async (req,res) =>{
         res.status(404).json( {message: error.message });
     }
 };
+
+
+
+//show datastudent
+export const getSkillsStudent = async (req,res) =>{
+    // const token = 12345;
+    const  token_id  = req.params.token_id;
+    try{
+
+        const student =  await StudentModel.find({student_id : token_id});
+        var skills = [];
+        for(let i=0; i<student[0].skills.length; i++){
+            skills[i] = {
+                skill_name : student[0].skills[i].skill_name,
+                level_id : student[0].skills[i].level_id
+            }
+        }
+
+        function compare( a, b ) {
+            if ( a.skill_name < b.skill_name ){
+              return -1;
+            }
+            if ( a.skill_name > b.skill_name ){
+              return 1;
+            }
+            return 0;
+        }
+          
+        skills.sort( compare );
+
+        var date = student[0].time_stamp;
+        var obj ={
+            skills,
+            date
+        }
+        console.log(date);
+            res.status(200).json(obj);
+    } catch(error){
+        res.status(404).json( {message: error.message });
+    }
+};

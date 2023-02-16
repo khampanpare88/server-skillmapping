@@ -4,6 +4,7 @@ const studentSchema = mongoose.Schema({
     token : String,
     student_name : String,
     student_id : String,
+    time_stamp : Date,
     courses : [
         {
         course_name : String,

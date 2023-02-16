@@ -105,7 +105,8 @@ export const login = async (req,res) =>{
                 res.status(409).json({ message: error.message });
             }
         } else { 
-            const updatedtoken = { token : accessToken };
+            const d = new Date();
+            const updatedtoken = { token : accessToken , time_stamp : d};
             await StudentModel.findOneAndUpdate({student_id: student_id}, updatedtoken, { new: true });
             var obj = {
                 token: accessToken,
