@@ -87,7 +87,13 @@ export const login = async (req,res) =>{
             };
         };
 
-        let d = new Date(year,month,day);
+        let date = new Date();
+        let dd = date.getDate();
+        let mm = date.getMonth();
+        let yy = date.getFullYear();
+        mm = mm+1;
+        date = dd +"/" +mm +"/"+yy;
+        console.log(date);
 
         if(studentfind.length === 0){
             const student = new StudentModel({token : accessToken,

@@ -128,6 +128,7 @@ export const getSkillsStudent = async (req,res) =>{
         skills.sort( compare );
 
         var date = student[0].time_stamp;
+
         var obj ={
             skills,
             date
