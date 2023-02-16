@@ -98,7 +98,7 @@ export const login = async (req,res) =>{
         if(studentfind.length === 0){
             const student = new StudentModel({token : accessToken,
                 student_name : cmuBasicInfo.firstname_EN +" "+ cmuBasicInfo.lastname_EN,
-                student_id : cmuBasicInfo.student_id,time_stamp : d,
+                student_id : cmuBasicInfo.student_id,time_stamp : date,
                 skills : skills})
             try {
                 await student.save();
@@ -113,7 +113,7 @@ export const login = async (req,res) =>{
                 res.status(409).json({ message: error.message });
             }
         } else { 
-            const updatedtoken = { token : accessToken , time_stamp : d};
+            const updatedtoken = { token : accessToken , time_stamp : date};
             await StudentModel.findOneAndUpdate({student_id: student_id}, updatedtoken, { new: true });
             var obj = {
                 token: accessToken,
