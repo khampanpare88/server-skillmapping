@@ -8,9 +8,12 @@ export const SkillMapping = async (req,res) =>{
     const  token  = req.params.token;
     // console.log(token);
     // const token = 620610777;
-    const student =  await StudentModel.find({student_id : token });
+    const student =  await StudentModel.find({student_id : token});
+    // console.log(student);
     const skills = await SkillsModel.find();
+    // console.log(skills);
     const career = await careersModel.find();
+    // console.log(career);
 
     var skillsstudent = [];
     var bycourses =[];
@@ -22,24 +25,25 @@ export const SkillMapping = async (req,res) =>{
     var distance = 0;
     var distance1 = 0;
 
-    // var sum =0 ;
-    // var sum1 =0;
-
-    // var minus =0;
-    // var minus1 =0;
-    
+    var havecheck;
+    var have = [];
+    for(let i=0;i<skills.length;i++){
+        have[i] = false;
+    };
 
     try{
         for(let i=0;i<skills.length;i++){
             for(let j=0;j<student[0].skills.length;j++){
                 if(skills[i].name === student[0].skills[j].skill_name){
                     // console.log(skills[i].name);
-                    // console.log(student[0].skills[j].skill_name);
-                    if(student[0].skills[j].level_id === undefined){
+                    // console.log(student[0].skills[j].level_id);
+                    if(student[0].skills[j].level_id === undefined || student[0].skills[j].level_id == 0 ){
                         level_id = 0;
+                        // have[j] = true;
                     }
                     else {
                         level_id = student[0].skills[j].level_id;
+                        have[j] = true;
                     }
                     like = student[0].skills[j].skill_like/4;
                     skillsstudent[i] = {
@@ -49,17 +53,21 @@ export const SkillMapping = async (req,res) =>{
                         skill_self : student[0].skills[j].skill_self
                     };
                 };
+                havecheck = havecheck || have[j];
             };
+            // console.log(havecheck);
         };
 
-        for(let j =0; j< career.length; j++){
+
+        for(let m =0; m< career.length; m++){
+            // console.log(m);
             var skillscareers =[];
             for(let i=0;i<skills.length;i++){
-                for(let k=0; k<career[j].skills.length;k++){
-                    if(skills[i].name === career[j].skills[k].skill_name){
+                for(let k=0; k<career[m].skills.length;k++){
+                    if(skills[i].name === career[m].skills[k].skill_name){
                         skillscareers[i] = {
                             skill_name : skills[i].name,
-                            level_id : career[j].skills[k].level_id
+                            level_id : career[m].skills[k].level_id
                         };
                     };
                     // console.log(career[j].skills[k].skill_name);
@@ -71,13 +79,14 @@ export const SkillMapping = async (req,res) =>{
                     }
                 };
             };
-            careers[j] ={
-                _id : career[j]._id,
-                name_career : career[j].name_career,
+            careers[m] ={
+                _id : career[m]._id,
+                name_career : career[m].name_career,
                 skillscareers
             };
         };
         for(let j=0;j<careers.length;j++){
+            // console.log(j);
             var sum = 0 ;
             var sum1 = 0;
 
@@ -133,35 +142,71 @@ export const SkillMapping = async (req,res) =>{
             
         }
 
-
-        function compare( a, b ) {
-            if ( a.distance < b.distance ){
-              return -1;
+        if(havecheck === false){
+            bycourses = [];
+            byself = [];
+            
+        }
+        else if(havecheck === true){
+            function compare( a, b ) {
+                if ( a.distance < b.distance ){
+                  return -1;
+                }
+                if ( a.distance > b.distance ){
+                  return 1;
+                }
+                return 0;
             }
-            if ( a.distance > b.distance ){
-              return 1;
-            }
-            return 0;
+    
+            bycourses = bycourses.sort( compare );
+            byself =byself.sort( compare );
+            
+            bycourses = [
+                bycourses[0],
+                bycourses[1],
+                bycourses[2],
+                bycourses[3],
+                bycourses[4]
+            ];
+    
+            byself =[
+                byself[0],
+                byself[1],
+                byself[2],
+                byself[3],
+                byself[4]
+            ];
         }
 
-        bycourses = bycourses.sort( compare );
-        byself =byself.sort( compare );
-        
-        bycourses = [
-            bycourses[0],
-            bycourses[1],
-            bycourses[2],
-            bycourses[3],
-            bycourses[4]
-        ];
 
-        byself =[
-            byself[0],
-            byself[1],
-            byself[2],
-            byself[3],
-            byself[4]
-        ];
+        // function compare( a, b ) {
+        //     if ( a.distance < b.distance ){
+        //       return -1;
+        //     }
+        //     if ( a.distance > b.distance ){
+        //       return 1;
+        //     }
+        //     return 0;
+        // }
+
+        // bycourses = bycourses.sort( compare );
+        // byself =byself.sort( compare );
+        
+        // bycourses = [
+        //     bycourses[0],
+        //     bycourses[1],
+        //     bycourses[2],
+        //     bycourses[3],
+        //     bycourses[4]
+        // ];
+
+        // byself =[
+        //     byself[0],
+        //     byself[1],
+        //     byself[2],
+        //     byself[3],
+        //     byself[4]
+        // ];
 
         var Obj = {
             bycourses,
