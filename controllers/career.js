@@ -50,7 +50,7 @@ export const getCareer = async (req,res) =>{
                                 des_thai : skill[j].des_thai,
                                 level_id : career[0].skills[i].level_id,
                                 des_level : skill[j].levels[n].level_des,
-                                thai_level : skill[j].levels[n].thai
+                                thai_level : skill[j].levels[n].level_thai
                             }
                         }
                     }
