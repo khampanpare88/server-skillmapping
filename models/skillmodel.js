@@ -7,7 +7,8 @@ const skillsSchema = mongoose.Schema({
     levels : [
         {
         level_id : String,
-        level_des : String
+        level_des : String,
+        level_thai : String
         }
     ]
 },{versionKey: false});
