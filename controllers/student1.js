@@ -109,25 +109,18 @@ export const getSkillsStudent = async (req,res) =>{
         const student =  await StudentModel.find({student_id : token_id});
         var level_id = [];
         var skills_name = [];
+        var skill_self = [];
         for(let i=0; i<student[0].skills.length; i++){
             skills_name[i] = student[0].skills[i].skill_name;
             level_id[i] = student[0].skills[i].level_id;
+            skill_self[i] =student[0].skills[i].skill_self;
         }
 
-        // function compare( a, b ) {
-        //     if ( a.skill_name < b.skill_name ){
-        //       return -1;
-        //     }
-        //     if ( a.skill_name > b.skill_name ){
-        //       return 1;
-        //     }
-        //     return 0;
-        // }
-          
-        // skills.sort( compare );
         var skills = [];
         skills[0] = skills_name;
         skills[1] = level_id;
+        skills[2] = skill_self;
+        // console.log(skills)
 
         var date = student[0].time_stamp;
 
