@@ -168,6 +168,15 @@ export const addCourses = async (req,res) =>{
     const { token, courses } = req.body;
     // console.log(token,courses);
     try{
+        let date = new Date();
+        let dd = date.getDate();
+        let mm = date.getMonth();
+        let yy = date.getFullYear();
+        mm = mm+1;
+        date = dd +"/" +mm +"/"+yy;
+        const updatedate = { time_stamp : date};
+        await StudentModel.findOneAndUpdate({student_id: token}, updatedate, { new: true });
+
         const student = await StudentModel.find({student_id:token});
         for(let j=0;j<student[0].courses.length;j++){
         for( let i=0;i<courses.length;i++ ){
