@@ -86,19 +86,20 @@ export const login = async (req,res) =>{
                 skill_self : 0 
             };
         };
-
         let date = new Date();
         let dd = date.getDate();
         let mm = date.getMonth();
         let yy = date.getFullYear();
         mm = mm+1;
         date = dd +"/" +mm +"/"+yy;
-        console.log(date);
+        // console.log(date);
+
 
         if(studentfind.length === 0){
             const student = new StudentModel({token : accessToken,
                 student_name : cmuBasicInfo.firstname_EN +" "+ cmuBasicInfo.lastname_EN,
-                student_id : cmuBasicInfo.student_id,time_stamp : date,
+                student_id : cmuBasicInfo.student_id,
+                time_stamp : date,
                 skills : skills})
             try {
                 await student.save();
@@ -113,7 +114,7 @@ export const login = async (req,res) =>{
                 res.status(409).json({ message: error.message });
             }
         } else { 
-            const updatedtoken = { token : accessToken , time_stamp : date};
+            const updatedtoken = { token : accessToken };
             await StudentModel.findOneAndUpdate({student_id: student_id}, updatedtoken, { new: true });
             var obj = {
                 token: accessToken,

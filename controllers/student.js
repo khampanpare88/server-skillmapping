@@ -44,6 +44,14 @@ export const addLikeskills = async (req,res) =>{
         // console.log(token);
         // console.log(skill);
         try{
+            let date = new Date();
+            let dd = date.getDate();
+            let mm = date.getMonth();
+            let yy = date.getFullYear();
+            mm = mm+1;
+            date = dd +"/" +mm +"/"+yy;
+            const updatedate = { time_stamp : date};
+            await StudentModel.findOneAndUpdate({student_id: token}, updatedate, { new: true });
             // console.log(token,skill);
             const find = await StudentModel.find({student_id :token});
 
@@ -99,6 +107,14 @@ export const addSelfkills = async (req,res) =>{
         const {token,skill} = req.body;
         // console.log(token,skill);
         try{
+        let date = new Date();
+        let dd = date.getDate();
+        let mm = date.getMonth();
+        let yy = date.getFullYear();
+        mm = mm+1;
+        date = dd +"/" +mm +"/"+yy;
+        const updatedate = { time_stamp : date};
+        await StudentModel.findOneAndUpdate({student_id: token}, updatedate, { new: true });
 
         const find = await StudentModel.find({student_id :token});
         
