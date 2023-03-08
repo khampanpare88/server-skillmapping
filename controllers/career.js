@@ -70,6 +70,7 @@ export const getCareer = async (req,res) =>{
         var skillname = [];
         var studentlevel = [];
         var careerlevel = [];
+        var studentself = [];
         const n = student[0].skills.length;
         const m = career[0].skills.length;
         for(let i = 0; i < n ; i++){
@@ -147,18 +148,17 @@ export const getCareer = async (req,res) =>{
             };
         };
 
-        //console.log(career[0].skills);
-
         chart[0] = skillname;
         chart[1] = studentlevel;
-        chart[2] = careerlevel;
-        chart[3] = studentself;
+        chart[3] = careerlevel;
+        chart[2] = studentself;
         var obj = {
             career,
             // skills,
             chart,
             courses
         };
+        console.log(obj);
         res.status(200).json(obj);
     } catch(error){
         res.status(404).json( {message: error.message });
