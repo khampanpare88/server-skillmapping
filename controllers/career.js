@@ -76,8 +76,9 @@ export const getCareer = async (req,res) =>{
             for(let j = 0; j < m ; j++){
                 if(student[0].skills[i].skill_name === career[0].skills[j].skill_name ){
                         skillname[j] = career[0].skills[j].skill_name;
-                        studentlevel[j] = student[0].skills[i].level_id
-                        careerlevel[j] = career[0].skills[j].level_id
+                        studentlevel[j] = student[0].skills[i].level_id;
+                        careerlevel[j] = career[0].skills[j].level_id;
+                        studentself[j] = student[0].skills[i].skill_self;
                     if(studentlevel[j] === undefined){
                         studentlevel[j] = 0;
                     } 
@@ -151,6 +152,7 @@ export const getCareer = async (req,res) =>{
         chart[0] = skillname;
         chart[1] = studentlevel;
         chart[2] = careerlevel;
+        chart[3] = studentself;
         var obj = {
             career,
             // skills,
