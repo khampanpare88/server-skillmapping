@@ -158,7 +158,7 @@ export const getCareer = async (req,res) =>{
             chart,
             courses
         };
-        console.log(obj);
+        // console.log(obj);
         res.status(200).json(obj);
     } catch(error){
         res.status(404).json( {message: error.message });
