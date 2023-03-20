@@ -118,19 +118,16 @@ export const getCareer = async (req,res) =>{
                                 for(let x=0;x < student[0].skills.length;x++){
                                     if(course[i].skills[m].skill_name === career[0].skills[n].skill_name && career[0].skills[n].skill_name === student[0].skills[x].skill_name){
                                         if(career[0].skills[n].level_id > student[0].skills[x].level_id ){
-                                            if(course[i].skills[m].level_id >= career[0].skills[n].level_id){
+                                            if(course[i].skills[m].level_id > student[0].skills[x].level_id){
                                                 coursecheck[i] = {
                                                     id : course[i].id,
                                                     name :  course[i].name,
                                                     sel_topic : course[i].sel_topic,
                                                 };
-
-                                            }
+                                            };
                                         };
                                     };
-                                }
-                                
-
+                                };
                             };
                         };
                     }
