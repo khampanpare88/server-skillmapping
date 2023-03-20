@@ -115,15 +115,22 @@ export const getCareer = async (req,res) =>{
                     if(course[i].name !== student[0].courses[j].course_name){
                         for(let m=0;m < course[i].skills.length ;m++){
                             for(let n =0;n < career[0].skills.length;n++){
-                                if(course[i].skills[m].skill_name === career[0].skills[n].skill_name){
-                                    if(course[i].skills[m].level_id > career[0].skills[n].level_id){
-                                        coursecheck[i] = {
-                                            id : course[i].id,
-                                            name :  course[i].name,
-                                            sel_topic : course[i].sel_topic,
+                                for(let x=0;x < student[0].skills.length;x++){
+                                    if(course[i].skills[m].skill_name === career[0].skills[n].skill_name && career[0].skills[n].skill_name === student[0].skills[x].skill_name){
+                                        if(career[0].skills[n].level_id > student[0].skills[x].level_id ){
+                                            if(course[i].skills[m].level_id >= career[0].skills[n].level_id){
+                                                coursecheck[i] = {
+                                                    id : course[i].id,
+                                                    name :  course[i].name,
+                                                    sel_topic : course[i].sel_topic,
+                                                };
+
+                                            }
                                         };
                                     };
-                                };
+                                }
+                                
+
                             };
                         };
                     }
